@@ -1,0 +1,22 @@
+buildscript {
+  apply from: 'dependencies.gradle'
+
+  repositories {
+    google()
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath deps.android.plugin
+    classpath deps.kotlin.plugin
+  }
+}
+
+task clean(type: Delete) {
+  delete rootProject.buildDir
+}
+
+wrapper {
+  gradleVersion = "6.8.3"
+  distributionType = "bin"
+}

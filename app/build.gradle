@@ -1,0 +1,53 @@
+plugins {
+  id 'com.android.application'
+  id 'kotlin-android'
+}
+
+android {
+  compileSdkVersion versions.compileSdk
+
+  defaultConfig {
+    applicationId "ie.otormaigh.playground"
+    minSdkVersion versions.minSdk
+    targetSdkVersion versions.targetSdk
+    versionCode 1
+    versionName "1.0"
+
+    archivesBaseName = "playgroind-$versionName"
+  }
+
+  buildTypes {
+    debug {
+      applicationIdSuffix ".debug"
+    }
+
+    release {
+      postprocessing {
+        proguardFiles 'proguard-rules.pro'
+        removeUnusedResources = true
+        removeUnusedCode = true
+        optimizeCode = true
+        obfuscate = true
+      }
+    }
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_11
+  }
+
+  kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_11.toString()
+  }
+
+  buildFeatures {
+    viewBinding true
+  }
+}
+
+dependencies {
+  implementation deps.androidx.core_ktx
+  implementation deps.androidx.appcompat
+  implementation deps.google.material
+}
