@@ -49,6 +49,8 @@ android {
 dependencies {
   implementation project(':feature:networking')
 
+  implementation deps.kotlin.stdlib
+
   implementation deps.androidx.core_ktx
   implementation deps.androidx.appcompat
   implementation deps.google.material

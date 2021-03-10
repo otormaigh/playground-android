@@ -1,6 +1,7 @@
 plugins {
   id 'com.android.library'
   id 'kotlin-android'
+  id 'kotlin-kapt'
 }
 
 android {
@@ -38,4 +39,15 @@ android {
 }
 
 dependencies {
+  implementation deps.kotlin.stdlib
+
+  implementation deps.google.dagger.hilt.android
+  kapt deps.google.dagger.hilt.compiler
+
+  implementation deps.square.okhttp.core
+  implementation deps.square.okhttp.logging
+  implementation deps.square.moshi.core
+  kapt deps.square.moshi.codegen
+  implementation deps.square.retrofit.core
+  implementation deps.square.retrofit.converter_moshi
 }
