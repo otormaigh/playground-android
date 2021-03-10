@@ -1,5 +1,5 @@
 plugins {
-  id 'com.android.application'
+  id 'com.android.library'
   id 'kotlin-android'
 }
 
@@ -7,24 +7,19 @@ android {
   compileSdkVersion versions.compileSdk
 
   defaultConfig {
-    applicationId "ie.otormaigh.playground"
     minSdkVersion versions.minSdk
     targetSdkVersion versions.targetSdk
-    versionCode 1
-    versionName "1.0"
-
-    archivesBaseName = "playgroind-$versionName"
   }
 
   buildTypes {
     debug {
-      applicationIdSuffix ".debug"
     }
 
     release {
       postprocessing {
         proguardFiles 'proguard-rules.pro'
-        removeUnusedResources = true
+        consumerProguardFiles 'consumer-rules.pro'
+        removeUnusedResources = false
         removeUnusedCode = true
         optimizeCode = true
         obfuscate = true
@@ -40,16 +35,7 @@ android {
   kotlinOptions {
     jvmTarget = JavaVersion.VERSION_11.toString()
   }
-
-  buildFeatures {
-    viewBinding true
-  }
 }
 
 dependencies {
-  implementation project(':feature:networking')
-
-  implementation deps.androidx.core_ktx
-  implementation deps.androidx.appcompat
-  implementation deps.google.material
 }
