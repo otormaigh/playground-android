@@ -29,8 +29,10 @@ ext {
           plugin  : "com.google.dagger:hilt-android-gradle-plugin:${versions.hilt.dagger}"
         ]
       ],
-      material: 'com.google.android.material:material:1.4.0-alpha01'
+      material: 'com.google.android.material:material:1.4.0-alpha01',
+      truth   : 'com.google.truth:truth:1.1'
     ],
+    junit   : 'junit:junit:4.13.2',
     kotlin  : [
       coroutine: [
         core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutine}",
@@ -46,11 +48,12 @@ ext {
         codegen: "com.squareup.moshi:moshi-kotlin-codegen:${versions.moshi}"
       ],
       okhttp  : [
-        core   : "com.squareup.okhttp3:okhttp:${versions.okhttp}",
-        logging: "com.squareup.okhttp3:logging-interceptor:${versions.okhttp}",
+        core         : "com.squareup.okhttp3:okhttp:${versions.okhttp}",
+        logging      : "com.squareup.okhttp3:logging-interceptor:${versions.okhttp}",
+        mockwebserver: "com.squareup.okhttp3:mockwebserver:${versions.okhttp}"
       ],
       retrofit: [
-        core: "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+        core           : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
         converter_moshi: "com.squareup.retrofit2:converter-moshi:${versions.retrofit}"
       ]
     ],

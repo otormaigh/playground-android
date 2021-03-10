@@ -12,6 +12,16 @@ android {
     targetSdkVersion versions.targetSdk
   }
 
+  flavorDimensions 'api'
+  productFlavors {
+    mock {
+      dimension 'api'
+    }
+    live {
+      dimension 'api'
+    }
+  }
+
   buildTypes {
     debug {
     }
@@ -40,14 +50,22 @@ android {
 
 dependencies {
   implementation deps.kotlin.stdlib
+  implementation deps.kotlin.coroutine.core
+  implementation deps.kotlin.coroutine.android
 
   implementation deps.google.dagger.hilt.android
   kapt deps.google.dagger.hilt.compiler
 
   implementation deps.square.okhttp.core
   implementation deps.square.okhttp.logging
+  mockImplementation deps.square.okhttp.mockwebserver
   implementation deps.square.moshi.core
   kapt deps.square.moshi.codegen
   implementation deps.square.retrofit.core
   implementation deps.square.retrofit.converter_moshi
+
+  implementation deps.timber
+
+  testImplementation deps.google.truth
+  testImplementation deps.junit
 }

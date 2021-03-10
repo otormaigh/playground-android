@@ -13,7 +13,17 @@ android {
     versionCode 1
     versionName "1.0"
 
-    archivesBaseName = "playgroind-$versionName"
+    archivesBaseName = "playground-$versionName"
+  }
+
+  flavorDimensions 'api'
+  productFlavors {
+    mock {
+      dimension 'api'
+    }
+    live {
+      dimension 'api'
+    }
   }
 
   buildTypes {
@@ -47,7 +57,7 @@ android {
 }
 
 dependencies {
-  implementation project(':feature:networking')
+//  implementation project(':feature:networking')
 
   implementation deps.kotlin.stdlib
 
