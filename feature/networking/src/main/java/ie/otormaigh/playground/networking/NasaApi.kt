@@ -1,6 +1,6 @@
 package ie.otormaigh.playground.networking
 
-import ie.otormaigh.playground.networking.response.PhotoResponse
+import ie.otormaigh.playground.networking.response.NasaResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -14,5 +14,5 @@ interface NasaApi {
     @Query("camera") camera: String,
     @Query("page") page: Int,
     @Query("api_key") api_key: String
-  ): List<PhotoResponse>
+  ): NasaResponse
 }
