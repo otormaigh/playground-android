@@ -35,11 +35,13 @@ ext {
     junit   : 'junit:junit:4.13.2',
     kotlin  : [
       coroutine: [
+        android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutine}",
         core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutine}",
-        android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutine}"
+        test   : "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.coroutine}"
       ],
       plugin   : "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
-      stdlib   : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}"
+      stdlib   : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}",
+      test   : "org.jetbrains.kotlin:kotlin-test-junit:${versions.kotlin}"
     ],
     square  : [
       assertj : 'com.squareup.assertj:assertj-android:1.2.0',

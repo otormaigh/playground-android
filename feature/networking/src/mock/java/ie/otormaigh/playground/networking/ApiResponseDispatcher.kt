@@ -22,7 +22,7 @@ class ApiResponseDispatcher : QueueDispatcher() {
       setResponseCode(404)
       setBody("No method found for path [$method:$path]")
 
-      if (path.contains("/photos/")) {
+      if (path.contains("/photos")) {
         setBody(readFile("get_mars_photos.json"))
         setResponseCode(200)
       }

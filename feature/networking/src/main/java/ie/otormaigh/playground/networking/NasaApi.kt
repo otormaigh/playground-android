@@ -8,11 +8,11 @@ import retrofit2.http.Query
 interface NasaApi {
   @GET("{rover}/photos")
   suspend fun getPhotos(
-    @Path("rover") rover: String,
-    @Query("sol") sol: Int,
-    @Query("earth_date") earth_date: String,
-    @Query("camera") camera: String,
-    @Query("page") page: Int,
+    @Path("rover") rover: String? = null,
+    @Query("sol") sol: Int? = null,
+    @Query("earth_date") earth_date: String? = null,
+    @Query("camera") camera: String? = null,
+    @Query("page") page: Int? = null,
     @Query("api_key") api_key: String
   ): NasaResponse
 }
