@@ -72,3 +72,12 @@ dependencies {
   testImplementation deps.kotlin.test
   testImplementation deps.kotlin.coroutine.test
 }
+
+// NOTES#11/03/2021
+tasks.withType(Test) {
+  configurations {
+    jvmArgs += [
+      '--add-opens=java.base/java.lang.invoke=ALL-UNNAMED'
+    ]
+  }
+}
