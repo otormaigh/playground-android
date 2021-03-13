@@ -36,6 +36,7 @@ jobs:
         run: |
           ./gradlew generateLiveReleaseDatabaseSchema --stacktrace --scan
           if [[ $(git diff --stat) != '' ]]; then
+            echo "> Error: Database schema changed without adding a migration."
             exit 1
           else
             ./gradlew verifySqlDelightMigration --stacktrace --scan
