@@ -2,6 +2,7 @@ plugins {
   id 'com.android.library'
   id 'kotlin-android'
   id 'kotlin-kapt'
+  id 'com.squareup.sqldelight'
 }
 
 android {
@@ -50,4 +51,19 @@ android {
 
 dependencies {
   implementation deps.kotlin.stdlib
+
+  implementation deps.square.sqldelight.android
+  implementation deps.square.sqldelight.coroutines
+
+  implementation deps.google.dagger.hilt.android
+  kapt deps.google.dagger.hilt.compiler
 }
+
+sqldelight {
+  Database {
+    packageName = "ie.otormaigh.playground.sqldelight"
+  }
+}
+
+// NOTES#13/03/2021
+tasks.getByName("preBuild").dependsOn(":library:persistence:generateSqlDelightInterface")

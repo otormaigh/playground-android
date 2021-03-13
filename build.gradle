@@ -10,6 +10,7 @@ buildscript {
     classpath deps.android.plugin
     classpath deps.kotlin.plugin
     classpath deps.google.dagger.hilt.plugin
+    classpath deps.square.sqldelight.plugin
   }
 }
 
