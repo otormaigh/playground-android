@@ -32,8 +32,6 @@ jobs:
 
       - name: Install dependencies
         run: ./gradlew dependencies --stacktrace --scan
-      - name: Quality checks
-        run: ./gradlew lint --stacktrace --scan
       - name: Validate Database schema changes
         run: |
           ./gradlew generateLiveReleaseDatabaseSchema --stacktrace --scan
@@ -42,6 +40,8 @@ jobs:
           else
             ./gradlew verifySqlDelightMigration --stacktrace --scan
           fi
+      - name: Quality checks
+        run: ./gradlew lint --stacktrace --scan
       - name: Unit Test
         run: ./gradlew test --stacktrace --scan
       - name: Assemble Release
