@@ -60,3 +60,42 @@ Adding the following to the plugin block within the `app/build.gradle` file fixe
 ```
 id 'dagger.hilt.android.plugin'
 ```
+
+----
+
+Theres a couple of Gradle tasks that can be run to both generate a Database Schema file and then validate any migrations that are present in the project. These can and should be run locally, but on the occasions that this step is forgotten, we can run this on the CI to check this and fail the build as required.
+
+Generate a Database schema file based off the latest schema version and the `.sq` table files present in the project. Optionally add an output directory for the database files
+```
+sqldelight {
+  Database {
+    schemaOutputDirectory = file("src/main/sqldelight/databases")
+  }
+}
+
+./gradlew generateLiveReleaseDatabaseSchema
+```
+
+Validate any migration files that are present in the project. This can only be done if there are database schema files present to validate against.
+```
+sqldelight {
+  Database {
+    verifyMigrations = true
+  }
+}
+
+./gradlew verifySqlDelightMigration
+```
+
+Add a step to the CI to first try and generate a database schema file, if there were any files changes caused by this task it means that we have probably skipped this step locally and there may not be a migration present relative to these changes, fail the build, otherwise try and validate the migrations that are present.
+```
+- name: Validate Database schema changes
+  run: |
+    ./gradlew generateLiveReleaseDatabaseSchema --stacktrace --scan
+    if [[ $(git diff --stat) != '' ]]; then
+      echo "> Error: Database schema changed without adding a migration."
+      exit 1
+    else
+      ./gradlew verifySqlDelightMigration --stacktrace --scan
+    fi
+```
