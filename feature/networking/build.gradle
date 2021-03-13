@@ -1,0 +1,83 @@
+plugins {
+  id 'com.android.library'
+  id 'kotlin-android'
+  id 'kotlin-kapt'
+}
+
+android {
+  compileSdkVersion versions.compileSdk
+
+  defaultConfig {
+    minSdkVersion versions.minSdk
+    targetSdkVersion versions.targetSdk
+  }
+
+  flavorDimensions 'api'
+  productFlavors {
+    mock {
+      dimension 'api'
+    }
+    live {
+      dimension 'api'
+    }
+  }
+
+  buildTypes {
+    debug {
+    }
+
+    release {
+      postprocessing {
+        proguardFiles 'proguard-rules.pro'
+        consumerProguardFiles 'consumer-rules.pro'
+        removeUnusedResources = false
+        removeUnusedCode = true
+        optimizeCode = true
+        obfuscate = true
+      }
+    }
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8 // NOTES#10/03/2021
+    targetCompatibility JavaVersion.VERSION_11
+  }
+
+  kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_11.toString()
+  }
+}
+
+dependencies {
+  implementation deps.kotlin.stdlib
+  implementation deps.kotlin.coroutine.core
+  implementation deps.kotlin.coroutine.android
+
+  implementation deps.google.dagger.hilt.android
+  kapt deps.google.dagger.hilt.compiler
+
+  implementation deps.square.okhttp.core
+  implementation deps.square.okhttp.logging
+  mockImplementation deps.square.okhttp.mockwebserver
+  implementation deps.square.moshi.core
+  kapt deps.square.moshi.codegen
+  implementation deps.square.retrofit.core
+  implementation deps.square.retrofit.converter_moshi
+
+  implementation deps.timber
+
+  testImplementation deps.google.truth
+  testImplementation deps.junit
+  testImplementation deps.square.okhttp.mockwebserver
+  testImplementation deps.kotlin.test
+  testImplementation deps.kotlin.coroutine.test
+}
+
+// NOTES#11/03/2021
+tasks.withType(Test) {
+  configurations {
+    jvmArgs += [
+      '--add-opens=java.base/java.lang.invoke=ALL-UNNAMED'
+    ]
+  }
+}

@@ -1,24 +1,64 @@
 ext {
   versions = [
-      compileSdk: 30,
-      minSdk    : 21,
-      targetSdk : 30,
-      kotlin    : "1.4.31",            // org.jetbrains.kotlin
+    compileSdk: 30,
+    minSdk    : 21,
+    targetSdk : 30,
+
+    coroutine : "1.4.2",             // org.jetbrains.kotlinx:kotlinx-coroutines
+    hilt      : [
+      dagger: '2.33-beta'
+    ],
+    kotlin    : "1.4.31",            // org.jetbrains.kotlin
+    moshi     : "1.11.0",            // com.squareup.moshi
+    okhttp    : "4.9.1",             // com.squareup.okhttp3
+    retrofit  : "2.9.0",             // com.squareup.retrofit2
   ]
   deps = [
-      android : [
-          plugin: 'com.android.tools.build:gradle:7.0.0-alpha09'
+    android : [
+      plugin: 'com.android.tools.build:gradle:7.0.0-alpha09'
+    ],
+    androidx: [
+      appcompat: 'androidx.appcompat:appcompat:1.3.0-beta01',
+      core_ktx : 'androidx.core:core-ktx:1.5.0-beta03',
+    ],
+    google  : [
+      dagger  : [
+        hilt: [
+          android : "com.google.dagger:hilt-android:${versions.hilt.dagger}",
+          compiler: "com.google.dagger:hilt-android-compiler:${versions.hilt.dagger}",
+          plugin  : "com.google.dagger:hilt-android-gradle-plugin:${versions.hilt.dagger}"
+        ]
       ],
-      androidx: [
-          appcompat: 'androidx.appcompat:appcompat:1.3.0-beta01',
-          core_ktx : 'androidx.core:core-ktx:1.5.0-beta03',
+      material: 'com.google.android.material:material:1.4.0-alpha01',
+      truth   : 'com.google.truth:truth:1.1'
+    ],
+    junit   : 'junit:junit:4.13.2',
+    kotlin  : [
+      coroutine: [
+        android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutine}",
+        core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutine}",
+        test   : "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.coroutine}"
       ],
-      google  : [
-          material: 'com.google.android.material:material:1.4.0-alpha01'
+      plugin   : "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
+      stdlib   : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}",
+      test   : "org.jetbrains.kotlin:kotlin-test-junit:${versions.kotlin}"
+    ],
+    square  : [
+      assertj : 'com.squareup.assertj:assertj-android:1.2.0',
+      moshi   : [
+        core   : "com.squareup.moshi:moshi:${versions.moshi}",
+        codegen: "com.squareup.moshi:moshi-kotlin-codegen:${versions.moshi}"
       ],
-      kotlin  : [
-          plugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
-          stdlib: "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}"
+      okhttp  : [
+        core         : "com.squareup.okhttp3:okhttp:${versions.okhttp}",
+        logging      : "com.squareup.okhttp3:logging-interceptor:${versions.okhttp}",
+        mockwebserver: "com.squareup.okhttp3:mockwebserver:${versions.okhttp}"
       ],
+      retrofit: [
+        core           : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+        converter_moshi: "com.squareup.retrofit2:converter-moshi:${versions.retrofit}"
+      ]
+    ],
+    timber  : 'com.jakewharton.timber:timber:4.7.1'
   ]
 }
