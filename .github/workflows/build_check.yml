@@ -32,10 +32,19 @@ jobs:
 
       - name: Install dependencies
         run: ./gradlew dependencies --stacktrace --scan
+      - name: Validate Database schema changes
+        run: |
+          ./gradlew generateLiveReleaseDatabaseSchema --stacktrace --scan
+          if [[ $(git diff --stat) != '' ]]; then
+            echo "> Error: Database schema changed without adding a migration."
+            exit 1
+          else
+            ./gradlew verifySqlDelightMigration --stacktrace --scan
+          fi
       - name: Quality checks
         run: ./gradlew lint --stacktrace --scan
-      - name: Unit Test + Migration Test
-        run: ./gradlew test verifySqlDelightMigration --stacktrace --scan
+      - name: Unit Test
+        run: ./gradlew test --stacktrace --scan
       - name: Assemble Release
         run: ./gradlew clean assembleLiveRelease --stacktrace --scan
 

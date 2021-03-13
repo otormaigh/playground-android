@@ -54,6 +54,7 @@ dependencies {
 
   implementation deps.square.sqldelight.android
   implementation deps.square.sqldelight.coroutines
+  implementation deps.square.moshi.core
 
   implementation deps.google.dagger.hilt.android
   kapt deps.google.dagger.hilt.compiler
