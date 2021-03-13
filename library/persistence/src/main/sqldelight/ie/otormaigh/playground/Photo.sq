@@ -1,0 +1,7 @@
+CREATE TABLE Photo (
+  sol INTEGER PRIMARY KEY AUTOINCREMENT,
+  camera TEXT AS ie.otormaigh.playground.Camera NOT NULL,
+  img TEXT NOT NULL,
+  earth_date TEXT NOT NULL,
+  rover TEXT AS ie.otormaigh.playground.Rover NOT NULL
+);
