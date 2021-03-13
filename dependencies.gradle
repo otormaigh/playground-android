@@ -12,6 +12,7 @@ ext {
     moshi     : "1.11.0",            // com.squareup.moshi
     okhttp    : "4.9.1",             // com.squareup.okhttp3
     retrofit  : "2.9.0",             // com.squareup.retrofit2
+    sqldelight: "1.4.4"              // com.squareup.sqldelight
   ]
   deps = [
     android : [
@@ -41,22 +42,27 @@ ext {
       ],
       plugin   : "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
       stdlib   : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}",
-      test   : "org.jetbrains.kotlin:kotlin-test-junit:${versions.kotlin}"
+      test     : "org.jetbrains.kotlin:kotlin-test-junit:${versions.kotlin}"
     ],
     square  : [
-      assertj : 'com.squareup.assertj:assertj-android:1.2.0',
-      moshi   : [
+      assertj   : 'com.squareup.assertj:assertj-android:1.2.0',
+      moshi     : [
         core   : "com.squareup.moshi:moshi:${versions.moshi}",
         codegen: "com.squareup.moshi:moshi-kotlin-codegen:${versions.moshi}"
       ],
-      okhttp  : [
+      okhttp    : [
         core         : "com.squareup.okhttp3:okhttp:${versions.okhttp}",
         logging      : "com.squareup.okhttp3:logging-interceptor:${versions.okhttp}",
         mockwebserver: "com.squareup.okhttp3:mockwebserver:${versions.okhttp}"
       ],
-      retrofit: [
+      retrofit  : [
         core           : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
         converter_moshi: "com.squareup.retrofit2:converter-moshi:${versions.retrofit}"
+      ],
+      sqldelight: [
+        android   : "com.squareup.sqldelight:android-driver:${versions.sqldelight}",
+        coroutines: "com.squareup.sqldelight:coroutines-extensions:${versions.sqldelight}",
+        plugin    : "com.squareup.sqldelight:gradle-plugin:${versions.sqldelight}"
       ]
     ],
     timber  : 'com.jakewharton.timber:timber:4.7.1'

@@ -1,0 +1,15 @@
+CREATE TABLE Rover (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  landing_date TEXT NOT NULL,
+  launch_date TEXT NOT NULL,
+  status TEXT NOT NULL
+);
+
+insert:
+INSERT
+INTO Rover
+VALUES ?;
+
+fetchAll:
+SELECT * FROM Rover;
