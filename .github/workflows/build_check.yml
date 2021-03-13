@@ -35,13 +35,10 @@ jobs:
       - name: Quality checks
         run: ./gradlew lint --stacktrace --scan
       - name: Assemble Release
-        if: ${{ github.event_name == 'pull_request' || github.ref == 'master' }}
         run: ./gradlew clean assembleRelease --stacktrace --scan
 
       - name: Archive APKs
-        run: |
-          .github/script/download_latest_apk latest-release.apk
-          mv app/build/outputs/apk/release/*.apk release-${{ github.sha }}.apk
+        run: mv app/build/outputs/apk/release/*.apk release-${{ github.sha }}.apk
       - name: Upload archived APKs
         uses: actions/upload-artifact@v2.2.1
         with:
@@ -55,10 +52,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.4
-      - name: Download apks
+      - name: Download Action APK
         uses: actions/download-artifact@v2.0.6
         with:
           name: apks
+      - name: Download Latest Release APK
+        run: .github/script/download_latest_apk latest-release.apk
 
       - name: Run diffuse
         run: .github/script/diffuse-0.1.0-binary.jar diff latest-release.apk release-${{ github.sha }}.apk > apk-diff-${{ github.sha }}.txt
