@@ -46,7 +46,7 @@ jobs:
           path: '*.apk'
           retention-days: 30
       - name: Push APK to assets/master
-        if: ${{ github.ref == 'master' }}
+        if: github.ref == 'refs/heads/master'
         run: |
           git config user.name "Github Action"
           git config user.email "elliot.tormey@gmail.com"
