@@ -34,11 +34,13 @@ jobs:
         run: ./gradlew dependencies --stacktrace --scan
       - name: Quality checks
         run: ./gradlew lint --stacktrace --scan
+      - name: Unit Test
+        run: ./gradlew test --stacktrace --scan
       - name: Assemble Release
-        run: ./gradlew clean assembleRelease --stacktrace --scan
+        run: ./gradlew clean assembleLiveRelease --stacktrace --scan
 
       - name: Archive APKs
-        run: cp app/build/outputs/apk/release/*.apk release-${{ github.sha }}.apk
+        run: cp app/build/outputs/apk/live/release/*.apk release-${{ github.sha }}.apk
       - name: Upload archived APKs
         uses: actions/upload-artifact@v2.2.1
         with:
@@ -52,7 +54,7 @@ jobs:
           git config user.email "elliot.tormey@gmail.com"
           git checkout --orphan assets/master
           git rm --cached -r .
-          git add app/build/outputs/apk/release
+          git add app/build/outputs/apk/live/release
           git commit -m 'add apk from ${{ github.sha }}'
           git push -f origin assets/master
 
@@ -72,7 +74,7 @@ jobs:
           ref: assets/master
 
       - name: Run diffuse
-        run: .github/script/diffuse-0.1.0-binary.jar diff app/build/outputs/apk/release/*.apk release-${{ github.sha }}.apk > apk-diff-${{ github.sha }}.txt
+        run: .github/script/diffuse-0.1.0-binary.jar diff app/build/outputs/apk/live/release/*.apk release-${{ github.sha }}.apk > apk-diff-${{ github.sha }}.txt
       - name: Prepare PR comment
         run: printf "\`\`\`\n" > pr-comment.txt && sed '/====   DEX   ====/q' apk-diff-${{ github.sha }}.txt | tac | sed "1,2d" | tac | sed -e :a -e '/^\n*$/{$d;N;};/\n$/ba' >> pr-comment.txt && echo "\`\`\`"  >> pr-comment.txt
       - name: Comment PR
