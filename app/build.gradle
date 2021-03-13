@@ -57,7 +57,7 @@ android {
 }
 
 dependencies {
-  implementation project(':feature:networking')
+  implementation project(':library:networking')
 
   implementation deps.kotlin.stdlib
 

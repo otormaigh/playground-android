@@ -8,4 +8,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "playground-android"
 include ':app'
-include ':feature:networking'
+include ':library:networking'
