@@ -34,8 +34,8 @@ jobs:
         run: ./gradlew dependencies --stacktrace --scan
       - name: Quality checks
         run: ./gradlew lint --stacktrace --scan
-      - name: Unit Test
-        run: ./gradlew test --stacktrace --scan
+      - name: Unit Test + Migration Test
+        run: ./gradlew test verifySqlDelightMigration --stacktrace --scan
       - name: Assemble Release
         run: ./gradlew clean assembleLiveRelease --stacktrace --scan
 
