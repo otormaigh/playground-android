@@ -46,14 +46,15 @@ jobs:
           path: '*.apk'
           retention-days: 30
       - name: Push APK to assets/master
-        if: ${{ github.event_name == 'master' }}
+        if: ${{ github.ref == 'master' }}
         run: |
           git config user.name "Github Action"
           git config user.email "elliot.tormey@gmail.com"
           git checkout --orphan assets/master
           git rm --cached -r .
-          git add app/build/outputs/apk/release
-          git commit -m 'add apk from ${{ github.sha }}'
+          cp -r app/build/outputs/apk/release assets
+          git add assets
+          git commit -m 'add assets from ${{ github.sha }}'
           git push -f origin assets/master
 
   apk-stats:
