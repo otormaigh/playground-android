@@ -1,0 +1,30 @@
+name: Update Gradle Wrapper
+
+on:
+  schedule:
+    - cron: "0 5 * * WED"
+
+jobs:
+  update-gradle-wrapper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - uses: actions/cache@v2.1.3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+      - name: Setup Java
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
+
+      - name: Update Gradle Wrapper
+        uses: gradle-update/update-gradle-wrapper-action@v1.0.13
+        with:
+          base-branch: chore/dependency-update
+          target-branch: chore/dependency-update
+          set-distribution-checksum: false

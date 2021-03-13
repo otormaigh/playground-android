@@ -1,0 +1,86 @@
+name: Build + Check + APK Stats
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required in script/download_latest_apk
+  GITHUB_REPOSITORY: ${{ github.repository }} # required in script/download_latest_apk
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - uses: actions/cache@v2.1.3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1.0.3
+      - name: Setup Java
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
+
+      - name: Install dependencies
+        run: ./gradlew dependencies --stacktrace --scan
+      - name: Quality checks
+        run: ./gradlew lint --stacktrace --scan
+      - name: Assemble Release
+        run: ./gradlew clean assembleRelease --stacktrace --scan
+
+      - name: Archive APKs
+        run: cp app/build/outputs/apk/release/*.apk release-${{ github.sha }}.apk
+      - name: Upload archived APKs
+        uses: actions/upload-artifact@v2.2.1
+        with:
+          name: apks
+          path: '*.apk'
+          retention-days: 30
+      - name: Push APK to assets/master
+        if: ${{ github.event_name == 'master' }}
+        run: |
+          git config user.name "Github Action"
+          git config user.email "elliot.tormey@gmail.com"
+          git checkout --orphan assets/master
+          git rm --cached -r .
+          git add app/build/outputs/apk/release
+          git commit -m 'add apk from ${{ github.sha }}'
+          git push -f origin assets/master
+
+  apk-stats:
+    if: ${{ github.event_name == 'pull_request' }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: Download Action APK
+        uses: actions/download-artifact@v2.0.6
+        with:
+          name: apks
+      - name: Download Latest Release APK
+        uses: actions/checkout@v2.3.4
+        with:
+          ref: assets/master
+
+      - name: Run diffuse
+        run: .github/script/diffuse-0.1.0-binary.jar diff app/build/outputs/apk/release/*.apk release-${{ github.sha }}.apk > apk-diff-${{ github.sha }}.txt
+      - name: Prepare PR comment
+        run: printf "\`\`\`\n" > pr-comment.txt && sed '/====   DEX   ====/q' apk-diff-${{ github.sha }}.txt | tac | sed "1,2d" | tac | sed -e :a -e '/^\n*$/{$d;N;};/\n$/ba' >> pr-comment.txt && echo "\`\`\`"  >> pr-comment.txt
+      - name: Comment PR
+        uses: machine-learning-apps/pr-comment@1.0.0
+        with:
+          path: pr-comment.txt
+      - name: Upload full diff
+        uses: actions/upload-artifact@v2.2.1
+        with:
+          name: apk-diffs
+          path: apk-diff-${{ github.sha }}.txt
