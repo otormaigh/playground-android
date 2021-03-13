@@ -54,8 +54,9 @@ jobs:
           git config user.email "elliot.tormey@gmail.com"
           git checkout --orphan assets/master
           git rm --cached -r .
-          git add app/build/outputs/apk/live/release
-          git commit -m 'add apk from ${{ github.sha }}'
+          cp -r app/build/outputs/apk/live/release assets
+          git add assets
+          git commit -m 'add assets from ${{ github.sha }}'
           git push -f origin assets/master
 
   apk-stats:
@@ -68,13 +69,11 @@ jobs:
         uses: actions/download-artifact@v2.0.6
         with:
           name: apks
-      - name: Download Latest Release APK
-        uses: actions/checkout@v2.3.4
-        with:
-          ref: assets/master
+      - name: Download Latest assets from assets/master
+        run: git checkout origin/assets/master assets/
 
       - name: Run diffuse
-        run: .github/script/diffuse-0.1.0-binary.jar diff app/build/outputs/apk/live/release/*.apk release-${{ github.sha }}.apk > apk-diff-${{ github.sha }}.txt
+        run: .github/script/diffuse-0.1.0-binary.jar diff assets/*.apk release-${{ github.sha }}.apk > apk-diff-${{ github.sha }}.txt
       - name: Prepare PR comment
         run: printf "\`\`\`\n" > pr-comment.txt && sed '/====   DEX   ====/q' apk-diff-${{ github.sha }}.txt | tac | sed "1,2d" | tac | sed -e :a -e '/^\n*$/{$d;N;};/\n$/ba' >> pr-comment.txt && echo "\`\`\`"  >> pr-comment.txt
       - name: Comment PR
