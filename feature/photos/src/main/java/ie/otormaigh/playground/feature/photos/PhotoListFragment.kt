@@ -36,7 +36,7 @@ class PhotoListFragment : Fragment() {
     binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
 
     lifecycleScope.launch(Dispatchers.IO) {
-      photoStore.fetchPhotos("Curiosity", "FMAZ", sol = 1).collectLatest {
+      photoStore.fetchPhotos("curiosity", sol = 1000).collectLatest {
         withContext(Dispatchers.Main) {
           recyclerAdapter.submitList(it)
         }

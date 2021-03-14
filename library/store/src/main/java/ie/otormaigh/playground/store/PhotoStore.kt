@@ -24,16 +24,16 @@ constructor(
   private val database: Database
 ) {
 
-  suspend fun fetchPhotos(rover: String, camera: String, page: Int = 1, sol: Int = -1, earthData: String = ""): Flow<List<Photo>> {
-    if (sol == -1 && earthData.isEmpty()) throw Exception("Field { sol } AND { earthDate } must not be empty.")
+  suspend fun fetchPhotos(rover: String, sol: Int? = null, earthDate: String? = null, camera: String? = null, page: Int = 1): Flow<List<Photo>> {
+    if (sol == null && earthDate == null) throw Exception("Field { sol } AND { earthDate } must not be empty.")
 
     val query = database.photoQueries
 
     try {
       val response = api.getPhotos(
         rover = rover,
-        sol = sol,
-        earth_date = earthData,
+        sol = sol, // TODO: Calculate sol from earth_date
+        earth_date = earthDate,
         camera = camera,
         page = page
       )
