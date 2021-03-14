@@ -1,13 +1,6 @@
 CREATE TABLE Camera (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
   rover_id INTEGER NOT NULL,
   full_name TEXT NOT NULL
 );
-
-insert:
-INSERT
-INTO Camera
-VALUES ?;
-
-fetchAll:
-SELECT * FROM Camera;

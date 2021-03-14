@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class RoverResponse(
-  val id: Int,
+  val id: Long,
   val name: String,
   @Json(name = "landing_date")
   val landingDate: String,

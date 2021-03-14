@@ -5,10 +5,10 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class CameraResponse(
-  val id: Int,
+  val id: Long,
   val name: String,
   @Json(name = "rover_id")
-  val roverId: Int,
+  val roverId: Long,
   @Json(name = "full_name")
   val fullName: String
 )
