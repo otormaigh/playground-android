@@ -12,5 +12,5 @@ import okhttp3.HttpUrl.Companion.toHttpUrl
 object NetworkFlavourModule {
   @Provides
   fun provideBaseUrl(): HttpUrl =
-    "".toHttpUrl()
+    "https://api.nasa.gov/mars-photos/api/v1/rovers/".toHttpUrl()
 }
