@@ -1,5 +1,5 @@
 package ie.otormaigh.playground
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : Activity()
+class MainActivity : AppCompatActivity(R.layout.activity_main)

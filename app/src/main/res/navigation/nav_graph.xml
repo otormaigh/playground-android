@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/navigation_main_graph"
+  app:startDestination="@id/fragment_photo_list"
+  tools:ignore="UnusedNavigation">
+
+  <fragment
+    android:id="@+id/fragment_photo_list"
+    android:name="ie.otormaigh.playground.feature.photos.PhotoListFragment"
+    android:label="fragment_photo_list" />
+
+</navigation>

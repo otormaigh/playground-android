@@ -53,10 +53,6 @@ android {
     jvmTarget = JavaVersion.VERSION_11.toString()
   }
 
-  buildFeatures {
-    viewBinding true
-  }
-
   dynamicFeatures = [
     ':feature:photos'
   ]
@@ -67,8 +63,11 @@ dependencies {
 
   implementation deps.kotlin.stdlib
 
-  implementation deps.androidx.core_ktx
   implementation deps.androidx.appcompat
+  implementation deps.androidx.core_ktx
+  implementation deps.androidx.navigation.dynamic_feature
+  implementation deps.androidx.navigation.ui
+
   implementation deps.google.material
 
   implementation deps.google.dagger.hilt.android

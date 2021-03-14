@@ -42,6 +42,10 @@ android {
   kotlinOptions {
     jvmTarget = JavaVersion.VERSION_11.toString()
   }
+
+  buildFeatures {
+    viewBinding true
+  }
 }
 
 dependencies {
@@ -50,5 +54,5 @@ dependencies {
   implementation deps.kotlin.stdlib
 
   implementation deps.androidx.core_ktx
-
+  implementation deps.androidx.fragment
 }
