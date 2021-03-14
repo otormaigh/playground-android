@@ -20,12 +20,11 @@ class PhotoStoreTest {
   fun setup() {
     val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
     Database.Schema.create(driver)
-    val moshi = NetworkingModule.provideMoshi()
     database = Database(
       driver = driver,
       PhotoAdapter = Photo.Adapter(
-        cameraAdapter = CameraColumnAdapter(moshi),
-        roverAdapter = RoverColumnAdapter(moshi)
+        cameraAdapter = CameraColumnAdapter(),
+        roverAdapter = RoverColumnAdapter()
       )
     )
   }
@@ -38,7 +37,7 @@ class PhotoStoreTest {
     )
 
     // TODO : Mock API response to validate that function and database returns a value
-    val photos = photoStore.fetchPhotos("", "", sol = 1).toList()
+    val photos = photoStore.fetchPhotos("curiosity", sol = 1).toList()
     assertThat(photos)
       .isEmpty()
 
