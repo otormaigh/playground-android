@@ -49,7 +49,7 @@ android {
 }
 
 dependencies {
-  implementation project(':library:networking')
+  api project(':library:networking')
   api project(':library:persistence')
 
   implementation deps.kotlin.stdlib

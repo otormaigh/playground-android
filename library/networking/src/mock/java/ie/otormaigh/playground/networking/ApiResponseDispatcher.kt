@@ -19,13 +19,13 @@ class ApiResponseDispatcher : QueueDispatcher() {
       Timber.d("path -> $path")
 
       // Set a default client side error to begin with
-      setResponseCode(404)
-      setBody("No method found for path [$method:$path]")
-
-      if (path.contains("/photos")) {
+//      setResponseCode(404)
+//      setBody("No method found for path [$method:$path]")
+//
+//      if (path.contains("/photos")) {
         setBody(readFile("get_mars_photos.json"))
         setResponseCode(200)
-      }
+//      }
 
       setBodyDelay(1_300, TimeUnit.MILLISECONDS)
     }

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ie.otormaigh.playground.feature.photos.databinding.FragmentPhotoListBinding
 import ie.otormaigh.playground.store.PhotoStore
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,7 +34,7 @@ class PhotoListFragment : Fragment() {
     binding.recyclerView.adapter = recyclerAdapter
     binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
 
-    lifecycleScope.launch {
+    lifecycleScope.launch(Dispatchers.IO) {
       photoStore.fetchPhotos("Curiosity", "FMAZ", sol = 1).collectLatest {
         recyclerAdapter.submitList(it)
       }

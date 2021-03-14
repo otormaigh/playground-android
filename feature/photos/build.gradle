@@ -1,4 +1,5 @@
 plugins {
+  id 'com.android.library'
   id 'kotlin-android'
   id 'kotlin-kapt'
   id 'dagger.hilt.android.plugin'
@@ -8,11 +9,8 @@ android {
   compileSdkVersion versions.compileSdk
 
   defaultConfig {
-    applicationId "ie.otormaigh.playground.feature.photos"
     minSdkVersion versions.minSdk
     targetSdkVersion versions.targetSdk
-    versionCode 1
-    versionName "1.0"
   }
 
   flavorDimensions 'api'
@@ -30,8 +28,14 @@ android {
     }
 
     release {
-      // NOTES#14/03/2021
-      proguardFiles 'proguard-rules.pro'
+      postprocessing {
+        proguardFiles 'proguard-rules.pro'
+        consumerProguardFiles 'consumer-rules.pro'
+        removeUnusedResources = false
+        removeUnusedCode = true
+        optimizeCode = true
+        obfuscate = true
+      }
     }
   }
 
@@ -50,8 +54,7 @@ android {
 }
 
 dependencies {
-  implementation project(":app")
-  implementation project(":library:store")
+  api project(":library:store")
 
   implementation deps.kotlin.stdlib
   implementation deps.kotlin.coroutine.android

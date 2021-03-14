@@ -191,3 +191,14 @@ Looks like using dynamic feature modules with Dagger.Hilt is a no-go for the mom
 ```
 java.lang.RuntimeException: Unable to start activity ComponentInfo{ie.otormaigh.playground.debug/ie.otormaigh.playground.MainActivity}: java.lang.ClassCastException: ie.otormaigh.playground.DaggerPlaygroundApplication_HiltComponents_SingletonC$ActivityRetainedCImpl$ActivityCImpl$FragmentCImpl cannot be cast to ie.otormaigh.playground.feature.photos.PhotoListFragment_GeneratedInjector
 ```
+
+
+----
+
+
+Build error from Dagger. This error traces back to the `Retrofit` dependencies in the `:library:networking` module, it seems that Dagger needs to be able to 'see' that dependency all the way up as far asa the module that contains the `@HiltAndroidApp` annotation.
+```
+Execution failed for task ':app:kaptLiveDebugKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
+   > java.lang.reflect.InvocationTargetException (no error message)
+```

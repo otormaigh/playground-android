@@ -66,7 +66,7 @@ dependencies {
   implementation deps.square.moshi.core
   kapt deps.square.moshi.codegen
   api deps.square.retrofit.core
-  implementation deps.square.retrofit.converter_moshi
+  api deps.square.retrofit.converter_moshi
 
   implementation deps.timber
 
