@@ -151,3 +151,16 @@ CREATE TABLE Camera (
 ```
 
 The only way I found to run a successful migration was to create a copy of the table, set the desired 'ordinal position' and then copy over the data from the 'old' table. I'm not sure how to define the ordinal position through a migration otherwise, or even that the position was a requirement.
+
+----
+
+After adding the `feature:photos` Dynamic Feature Module to the project and running a build I get the following error:
+```
+A problem occurred configuring project ':app'.
+> com.android.builder.errors.EvalIssueException: Resource shrinker for multi-apk applications can be enabled via experimental flag: 'android.experimental.enableNewResourceShrinker'.
+```
+
+Adding the following to the `gradle.properties` file fixes with issue:
+```
+android.experimental.enableNewResourceShrinker=true
+```
