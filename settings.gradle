@@ -10,3 +10,4 @@ rootProject.name = "playground-android"
 include ':app'
 include ':library:networking'
 include ':library:persistence'
+include ':library:store'
