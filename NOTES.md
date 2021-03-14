@@ -164,3 +164,42 @@ Adding the following to the `gradle.properties` file fixes with issue:
 ```
 android.experimental.enableNewResourceShrinker=true
 ```
+
+----
+
+Using the `postprocessing` block within the `:feature:photos` module makes the build complain about `minifyEnabled` being unsupported in dynamic feature modules.
+```
+A problem occurred configuring project ':feature:photos'.
+> com.android.builder.errors.EvalIssueException: Dynamic feature modules cannot set minifyEnabled to true. minifyEnabled is set to true in build type 'release'.
+  To enable minification for a dynamic feature module, set minifyEnabled to true in the base module.
+
+```
+
+But setting all the flags to false reports the following error:
+```
+Execution failed for task ':feature:photos:exportLiveReleaseConsumerProguardFiles'.
+> Default file proguard-defaults.txt should not be specified in this module. It can be specified in the base module instead.
+
+```
+
+Looks like the postprocessing block is setting that default file by default, not sure how to unset it. Using the 'old' way and just defining the `proguardFiles` fixes the above two errors'
+
+
+----
+
+Looks like using dynamic feature modules with Dagger.Hilt is a no-go for the moment, at least being able to use it within any extra effort. https://developer.android.com/training/dependency-injection/hilt-multi-module#dfm
+https://github.com/google/dagger/issues/1865
+```
+java.lang.RuntimeException: Unable to start activity ComponentInfo{ie.otormaigh.playground.debug/ie.otormaigh.playground.MainActivity}: java.lang.ClassCastException: ie.otormaigh.playground.DaggerPlaygroundApplication_HiltComponents_SingletonC$ActivityRetainedCImpl$ActivityCImpl$FragmentCImpl cannot be cast to ie.otormaigh.playground.feature.photos.PhotoListFragment_GeneratedInjector
+```
+
+
+----
+
+
+Build error from Dagger. This error traces back to the `Retrofit` dependencies in the `:library:networking` module, it seems that Dagger needs to be able to 'see' that dependency all the way up as far asa the module that contains the `@HiltAndroidApp` annotation.
+```
+Execution failed for task ':app:kaptLiveDebugKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
+   > java.lang.reflect.InvocationTargetException (no error message)
+```

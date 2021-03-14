@@ -5,9 +5,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ie.otormaigh.playground.networking.BuildConfig
 import ie.otormaigh.playground.networking.NasaApi
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -24,6 +26,10 @@ object NetworkingModule {
   @Provides
   fun provideOkHttp(): OkHttpClient =
     OkHttpClient.Builder()
+      .addNetworkInterceptor(HttpLoggingInterceptor().apply {
+        level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+        else HttpLoggingInterceptor.Level.NONE
+      })
       .build()
 
   @Provides

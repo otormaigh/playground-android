@@ -6,10 +6,10 @@ CREATE TABLE Rover (
   status TEXT NOT NULL
 );
 
-insert:
-INSERT
-INTO Rover
-VALUES ?;
-
-fetchAll:
-SELECT * FROM Rover;
+upsert:
+UPDATE Rover
+SET name = ?,
+    landing_date = ?,
+    launch_date = ?,
+    status = ?
+WHERE id = ?;

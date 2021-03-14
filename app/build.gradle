@@ -52,21 +52,22 @@ android {
   kotlinOptions {
     jvmTarget = JavaVersion.VERSION_11.toString()
   }
-
-  buildFeatures {
-    viewBinding true
-  }
 }
 
 dependencies {
-  implementation project(':library:store')
+  implementation project(':feature:photos')
 
   implementation deps.kotlin.stdlib
 
-  implementation deps.androidx.core_ktx
   implementation deps.androidx.appcompat
+  implementation deps.androidx.core_ktx
+  implementation deps.androidx.navigation.fragment
+  implementation deps.androidx.navigation.ui
+
   implementation deps.google.material
 
   implementation deps.google.dagger.hilt.android
   kapt deps.google.dagger.hilt.compiler
+
+  implementation deps.timber
 }

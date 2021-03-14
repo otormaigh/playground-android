@@ -1,5 +1,6 @@
 package ie.otormaigh.playground.store
 
+import android.database.sqlite.SQLiteConstraintException
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import ie.otormaigh.playground.Camera
@@ -13,7 +14,9 @@ import kotlinx.coroutines.flow.emptyFlow
 import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class PhotoStore
 @Inject
 constructor(
@@ -21,22 +24,31 @@ constructor(
   private val database: Database
 ) {
 
-  suspend fun fetchPhotos(rover: String, camera: String, page: Int = 1, sol: Int = -1, earthData: String = ""): Flow<List<Photo>> {
-    if (sol == -1 && earthData.isEmpty()) throw Exception("Field { sol } AND { earthDate } must not be empty.")
+  suspend fun fetchPhotos(rover: String, sol: Int? = null, earthDate: String? = null, camera: String? = null, page: Int = 1): Flow<List<Photo>> {
+    if (sol == null && earthDate == null) throw Exception("Field { sol } AND { earthDate } must not be empty.")
 
     val query = database.photoQueries
 
     try {
       val response = api.getPhotos(
         rover = rover,
-        sol = sol,
-        earth_date = earthData,
+        sol = sol, // TODO: Calculate sol from earth_date
+        earth_date = earthDate,
         camera = camera,
         page = page
       )
 
       response.photos.mapToDatabase().forEach {
-        database.photoQueries.insert(it)
+        try {
+          database.photoQueries.insert(it)
+        } catch (e: SQLiteConstraintException) {
+          Timber.e(e.localizedMessage)
+
+          // TODO: Simpler way to handle PK conflicts.
+          database.cameraQueries.upsert(it.camera.name, it.camera.rover_id, it.camera.full_name, id = it.id)
+          database.photoQueries.upsert(it.sol, it.camera, it.img, it.earth_date, it.rover, id = it.id)
+          database.roverQueries.upsert(it.rover.name, it.rover.landing_date, it.rover.launch_date, it.rover.status, id = it.rover.id)
+        }
       }
 
       return query.selectAll().asFlow().mapToList()

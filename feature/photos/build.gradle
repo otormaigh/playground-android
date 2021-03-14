@@ -2,6 +2,7 @@ plugins {
   id 'com.android.library'
   id 'kotlin-android'
   id 'kotlin-kapt'
+  id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -16,13 +17,9 @@ android {
   productFlavors {
     mock {
       dimension 'api'
-
-      buildConfigField "String", "API_KEY", "\"DEMO_KEY\""
     }
     live {
       dimension 'api'
-
-      buildConfigField "String", "API_KEY", "\"DEMO_KEY\""  // TODO: Set this to a value read from enc.properties
     }
   }
 
@@ -50,38 +47,25 @@ android {
   kotlinOptions {
     jvmTarget = JavaVersion.VERSION_11.toString()
   }
+
+  buildFeatures {
+    viewBinding true
+  }
 }
 
 dependencies {
+  api project(":library:store")
+
   implementation deps.kotlin.stdlib
-  implementation deps.kotlin.coroutine.core
   implementation deps.kotlin.coroutine.android
+
+  implementation deps.androidx.core_ktx
+  implementation deps.androidx.fragment
+  implementation deps.androidx.recyclerview
 
   implementation deps.google.dagger.hilt.android
   kapt deps.google.dagger.hilt.compiler
 
-  implementation deps.square.okhttp.core
-  implementation deps.square.okhttp.logging
-  mockImplementation deps.square.okhttp.mockwebserver
-  implementation deps.square.moshi.core
-  kapt deps.square.moshi.codegen
-  api deps.square.retrofit.core
-  api deps.square.retrofit.converter_moshi
-
   implementation deps.timber
-
-  testImplementation deps.google.truth
-  testImplementation deps.junit
-  testImplementation deps.square.okhttp.mockwebserver
-  testImplementation deps.kotlin.test
-  testImplementation deps.kotlin.coroutine.test
-}
-
-// NOTES#11/03/2021
-tasks.withType(Test) {
-  configurations {
-    jvmArgs += [
-      '--add-opens=java.base/java.lang.invoke=ALL-UNNAMED'
-    ]
-  }
+  implementation deps.coil
 }

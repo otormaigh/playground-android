@@ -1,5 +1,7 @@
 package ie.otormaigh.playground
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : Activity()
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity(R.layout.activity_main)
