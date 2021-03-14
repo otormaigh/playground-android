@@ -13,6 +13,7 @@ import ie.otormaigh.playground.store.PhotoStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -36,7 +37,9 @@ class PhotoListFragment : Fragment() {
 
     lifecycleScope.launch(Dispatchers.IO) {
       photoStore.fetchPhotos("Curiosity", "FMAZ", sol = 1).collectLatest {
-        recyclerAdapter.submitList(it)
+        withContext(Dispatchers.Main) {
+          recyclerAdapter.submitList(it)
+        }
       }
     }
   }

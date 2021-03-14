@@ -14,3 +14,12 @@ insert:
 INSERT
 INTO Photo
 VALUES ?;
+
+upsert:
+UPDATE Photo
+SET sol = ?,
+    camera = ?,
+    img = ?,
+    earth_date = ?,
+    rover = ?
+WHERE id = ?;

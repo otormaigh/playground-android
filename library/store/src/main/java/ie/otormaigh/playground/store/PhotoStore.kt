@@ -1,5 +1,6 @@
 package ie.otormaigh.playground.store
 
+import android.database.sqlite.SQLiteConstraintException
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import ie.otormaigh.playground.Camera
@@ -38,7 +39,16 @@ constructor(
       )
 
       response.photos.mapToDatabase().forEach {
-        database.photoQueries.insert(it)
+        try {
+          database.photoQueries.insert(it)
+        } catch (e: SQLiteConstraintException) {
+          Timber.e(e.localizedMessage)
+
+          // TODO: Simpler way to handle PK conflicts.
+          database.cameraQueries.upsert(it.camera.name, it.camera.rover_id, it.camera.full_name, id = it.id)
+          database.photoQueries.upsert(it.sol, it.camera, it.img, it.earth_date, it.rover, id = it.id)
+          database.roverQueries.upsert(it.rover.name, it.rover.landing_date, it.rover.launch_date, it.rover.status, id = it.rover.id)
+        }
       }
 
       return query.selectAll().asFlow().mapToList()

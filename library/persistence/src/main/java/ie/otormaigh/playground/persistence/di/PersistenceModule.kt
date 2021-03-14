@@ -1,7 +1,6 @@
 package ie.otormaigh.playground.persistence.di
 
 import android.app.Application
-import com.squareup.moshi.Moshi
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 import dagger.Module
@@ -27,11 +26,11 @@ object PersistenceModule {
 
   @Provides
   @Singleton
-  fun provideDatabase(sqlDriver: SqlDriver, moshi: Moshi): Database = Database(
+  fun provideDatabase(sqlDriver: SqlDriver): Database = Database(
     driver = sqlDriver,
     PhotoAdapter = Photo.Adapter(
-      cameraAdapter = CameraColumnAdapter(moshi),
-      roverAdapter = RoverColumnAdapter(moshi)
+      cameraAdapter = CameraColumnAdapter(),
+      roverAdapter = RoverColumnAdapter()
     )
   )
 }
