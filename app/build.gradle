@@ -61,6 +61,7 @@ dependencies {
 
   implementation deps.androidx.appcompat
   implementation deps.androidx.core_ktx
+  implementation deps.androidx.navigation.fragment
   implementation deps.androidx.navigation.ui
 
   implementation deps.google.material

@@ -25,7 +25,8 @@ ext {
       constraintlayout: 'androidx.constraintlayout:constraintlayout:2.1.0-alpha2',
       fragment        : 'androidx.fragment:fragment-ktx:1.2.5',
       navigation      : [
-        ui             : "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
+        fragment: "androidx.navigation:navigation-fragment-ktx:${versions.navigation}",
+        ui      : "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
       ],
       recyclerview    : 'androidx.recyclerview:recyclerview:1.2.0-alpha06'
     ],
