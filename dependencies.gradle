@@ -30,6 +30,7 @@ ext {
       ],
       recyclerview    : 'androidx.recyclerview:recyclerview:1.2.0-alpha06'
     ],
+    coil    : 'io.coil-kt:coil:1.1.1',
     google  : [
       dagger  : [
         hilt: [

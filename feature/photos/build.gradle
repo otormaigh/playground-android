@@ -65,4 +65,7 @@ dependencies {
 
   implementation deps.google.dagger.hilt.android
   kapt deps.google.dagger.hilt.compiler
+
+  implementation deps.timber
+  implementation deps.coil
 }
