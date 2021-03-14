@@ -188,6 +188,7 @@ Looks like the postprocessing block is setting that default file by default, not
 ----
 
 Looks like using dynamic feature modules with Dagger.Hilt is a no-go for the moment, at least being able to use it within any extra effort. https://developer.android.com/training/dependency-injection/hilt-multi-module#dfm
+https://github.com/google/dagger/issues/1865
 ```
 java.lang.RuntimeException: Unable to start activity ComponentInfo{ie.otormaigh.playground.debug/ie.otormaigh.playground.MainActivity}: java.lang.ClassCastException: ie.otormaigh.playground.DaggerPlaygroundApplication_HiltComponents_SingletonC$ActivityRetainedCImpl$ActivityCImpl$FragmentCImpl cannot be cast to ie.otormaigh.playground.feature.photos.PhotoListFragment_GeneratedInjector
 ```
