@@ -164,3 +164,22 @@ Adding the following to the `gradle.properties` file fixes with issue:
 ```
 android.experimental.enableNewResourceShrinker=true
 ```
+
+----
+
+Using the `postprocessing` block within the `:feature:photos` module makes the build complain about `minifyEnabled` being unsupported in dynamic feature modules.
+```
+A problem occurred configuring project ':feature:photos'.
+> com.android.builder.errors.EvalIssueException: Dynamic feature modules cannot set minifyEnabled to true. minifyEnabled is set to true in build type 'release'.
+  To enable minification for a dynamic feature module, set minifyEnabled to true in the base module.
+
+```
+
+But setting all the flags to false reports the following error:
+```
+Execution failed for task ':feature:photos:exportLiveReleaseConsumerProguardFiles'.
+> Default file proguard-defaults.txt should not be specified in this module. It can be specified in the base module instead.
+
+```
+
+Looks like the postprocessing block is setting that default file by default, not sure how to unset it. Using the 'old' way and just defining the `proguardFiles` fixes the above two errors'

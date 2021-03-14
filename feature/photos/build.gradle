@@ -1,0 +1,54 @@
+plugins {
+  id 'com.android.dynamic-feature'
+  id 'kotlin-android'
+}
+
+android {
+  compileSdkVersion versions.compileSdk
+
+  defaultConfig {
+    applicationId "ie.otormaigh.playground.feature.photos"
+    minSdkVersion versions.minSdk
+    targetSdkVersion versions.targetSdk
+    versionCode 1
+    versionName "1.0"
+  }
+
+  flavorDimensions 'api'
+  productFlavors {
+    mock {
+      dimension 'api'
+    }
+    live {
+      dimension 'api'
+    }
+  }
+
+  buildTypes {
+    debug {
+    }
+
+    release {
+      // NOTES#14/03/2021
+      proguardFiles 'proguard-rules.pro'
+    }
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8 // NOTES#10/03/2021
+    targetCompatibility JavaVersion.VERSION_11
+  }
+
+  kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_11.toString()
+  }
+}
+
+dependencies {
+  implementation project(":app")
+
+  implementation deps.kotlin.stdlib
+
+  implementation deps.androidx.core_ktx
+
+}
