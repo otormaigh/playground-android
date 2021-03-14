@@ -7,7 +7,7 @@ import ie.otormaigh.playground.Rover
 
 //FIXME: Add actual parsers here.
 class RoverColumnAdapter(moshi: Moshi) : ColumnAdapter<Rover, String> {
-  private val adapter: JsonAdapter<Rover> = moshi.adapter(Rover::class.java)
+  private val adapter: JsonAdapter<Rover> by lazy { moshi.adapter(Rover::class.java) }
 
   override fun decode(databaseValue: String): Rover = adapter.fromJson(databaseValue) ?: throw Exception("Unable to parse JSON data")
   override fun encode(value: Rover): String = adapter.toJson(value) ?: ""

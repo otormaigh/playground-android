@@ -1,6 +1,7 @@
 plugins {
   id 'com.android.library'
   id 'kotlin-android'
+  id 'kotlin-kapt'
 }
 
 android {
@@ -48,5 +49,22 @@ android {
 }
 
 dependencies {
+  implementation project(':library:networking')
+  implementation project(':library:persistence')
+
   implementation deps.kotlin.stdlib
+
+  implementation deps.google.dagger.hilt.android
+  kapt deps.google.dagger.hilt.compiler
+
+  implementation deps.square.sqldelight.coroutines
+  implementation deps.timber
+
+  testImplementation deps.google.truth
+  testImplementation deps.junit
+  testImplementation deps.kotlin.coroutine.test
+  testImplementation deps.mockk
+  testImplementation deps.square.moshi.core
+  testImplementation deps.square.okhttp.mockwebserver
+  testImplementation deps.square.sqldelight.test
 }
