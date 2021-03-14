@@ -13,6 +13,6 @@ interface NasaApi {
     @Query("earth_date") earth_date: String? = null,
     @Query("camera") camera: String? = null,
     @Query("page") page: Int? = null,
-    @Query("api_key") api_key: String
+    @Query("api_key") api_key: String = BuildConfig.API_KEY
   ): NasaResponse
 }

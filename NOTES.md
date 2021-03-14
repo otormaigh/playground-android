@@ -99,3 +99,55 @@ Add a step to the CI to first try and generate a database schema file, if there 
       ./gradlew verifySqlDelightMigration --stacktrace --scan
     fi
 ```
+
+
+###14/03/2021
+When adding a new column to the `Camera` table, rather than adding the new column to the end of the list, I added it so it would match the `CameraResponse` object between the `id` and `rover_id` field.
+
+```
+> Old schema
+CREATE TABLE Camera (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  rover_id INTEGER NOT NULL,
+  full_name TEXT NOT NULL
+);
+
+> New schema
+CREATE TABLE Camera (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  rover_id INTEGER NOT NULL,
+  full_name TEXT NOT NULL
+);
+
+> Migration command
+ALTER TABLE Camera CREATE COLUMN name TEXT NOT NULL DEFAULT '';
+```
+
+But when running the `verifySqlDelightMigration` task with the basic `ALTER TABLE` command above, I get the following error:
+```
+> A failure occurred while executing com.squareup.sqldelight.gradle.VerifyMigrationTask$VerifyMigrationAction
+   > Error migrating from 1.db, fresh database looks different from migration database:
+     /tables[Camera]/columns[Camera.rover_id]/ordinalPosition - CHANGED
+     /tables[Camera]/columns[Camera.full_name]/ordinalPosition - CHANGED
+     /tables[Camera]/columns[Camera.name]/defaultValue - REMOVED
+     /tables[Camera]/columns[Camera.name]/ordinalPosition - CHANGED
+```
+
+Unsure how to set the `ordinalPosition` or why `defaultValue` is causing an issue, I moved the column to the end of the list and re-ran the migration with the same command. This resulted in the following error:
+```
+> Update schema
+CREATE TABLE Camera (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  rover_id INTEGER NOT NULL,
+  full_name TEXT NOT NULL,
+  name TEXT NOT NULL
+);
+
+> A failure occurred while executing com.squareup.sqldelight.gradle.VerifyMigrationTask$VerifyMigrationAction
+   > Error migrating from 1.db, fresh database looks different from migration database:
+     /tables[Camera]/columns[Camera.name]/defaultValue - REMOVED
+
+```
+
+The only way I found to run a successful migration was to create a copy of the table, set the desired 'ordinal position' and then copy over the data from the 'old' table. I'm not sure how to define the ordinal position through a migration otherwise, or even that the position was a requirement.

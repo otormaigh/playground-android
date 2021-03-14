@@ -53,7 +53,6 @@ dependencies {
   implementation deps.kotlin.stdlib
 
   implementation deps.square.sqldelight.android
-  implementation deps.square.sqldelight.coroutines
   implementation deps.square.moshi.core
 
   implementation deps.google.dagger.hilt.android

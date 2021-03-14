@@ -1,0 +1,22 @@
+-- NOTES#14/03/2021
+CREATE TABLE Camera_copy(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  rover_id INTEGER NOT NULL,
+  full_name TEXT NOT NULL
+);
+INSERT INTO Camera_copy (id, name, rover_id, full_name)
+SELECT id, '', rover_id, full_name FROM Camera;
+DROP TABLE Camera;
+ALTER TABLE Camera_copy RENAME TO Camera;
+
+-- Start this table from scratch
+DROP TABLE Photo;
+CREATE TABLE Photo (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  sol INTEGER NOT NULL,
+  camera TEXT AS ie.otormaigh.playground.Camera NOT NULL,
+  img TEXT NOT NULL,
+  earth_date TEXT NOT NULL,
+  rover TEXT AS ie.otormaigh.playground.Rover NOT NULL
+);

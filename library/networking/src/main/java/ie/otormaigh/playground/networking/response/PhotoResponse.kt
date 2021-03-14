@@ -5,8 +5,8 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class PhotoResponse(
-  val id: Int,
-  val sol: Int,
+  val id: Long,
+  val sol: Long,
   val camera: CameraResponse,
   @Json(name = "img_src")
   val img: String,

@@ -16,9 +16,13 @@ android {
   productFlavors {
     mock {
       dimension 'api'
+
+      buildConfigField "String", "API_KEY", "\"DEMO_KEY\""
     }
     live {
       dimension 'api'
+
+      buildConfigField "String", "API_KEY", "\"DEMO_KEY\""  // TODO: Set this to a value read from enc.properties
     }
   }
 
@@ -61,7 +65,7 @@ dependencies {
   mockImplementation deps.square.okhttp.mockwebserver
   implementation deps.square.moshi.core
   kapt deps.square.moshi.codegen
-  implementation deps.square.retrofit.core
+  api deps.square.retrofit.core
   implementation deps.square.retrofit.converter_moshi
 
   implementation deps.timber
