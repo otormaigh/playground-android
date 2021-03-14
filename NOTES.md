@@ -183,3 +183,11 @@ Execution failed for task ':feature:photos:exportLiveReleaseConsumerProguardFile
 ```
 
 Looks like the postprocessing block is setting that default file by default, not sure how to unset it. Using the 'old' way and just defining the `proguardFiles` fixes the above two errors'
+
+
+----
+
+Looks like using dynamic feature modules with Dagger.Hilt is a no-go for the moment, at least being able to use it within any extra effort. https://developer.android.com/training/dependency-injection/hilt-multi-module#dfm
+```
+java.lang.RuntimeException: Unable to start activity ComponentInfo{ie.otormaigh.playground.debug/ie.otormaigh.playground.MainActivity}: java.lang.ClassCastException: ie.otormaigh.playground.DaggerPlaygroundApplication_HiltComponents_SingletonC$ActivityRetainedCImpl$ActivityCImpl$FragmentCImpl cannot be cast to ie.otormaigh.playground.feature.photos.PhotoListFragment_GeneratedInjector
+```

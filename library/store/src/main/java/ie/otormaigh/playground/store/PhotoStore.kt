@@ -13,7 +13,9 @@ import kotlinx.coroutines.flow.emptyFlow
 import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class PhotoStore
 @Inject
 constructor(
