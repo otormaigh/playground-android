@@ -203,3 +203,19 @@ Execution failed for task ':app:kaptLiveDebugKotlin'.
 > A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
    > java.lang.reflect.InvocationTargetException (no error message)
 ```
+
+###15/03/2021
+
+https://source.android.com/security/apksigning/v4
+https://source.android.com/security/apksigning/v3
+
+```
+signingConfigs {
+	debug {
+		storeFile file('../signing/debug.keystore')
+
+		enableV3Signing true
+		enableV4Signing true
+	}
+}
+```

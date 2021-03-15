@@ -4,6 +4,10 @@ plugins {
   id 'kotlin-kapt'
 }
 
+if (file('../enc.properties').exists()) {
+  apply from: '../enc.properties'
+}
+
 android {
   compileSdkVersion versions.compileSdk
 
@@ -22,7 +26,7 @@ android {
     live {
       dimension 'api'
 
-      buildConfigField "String", "API_KEY", "\"DEMO_KEY\""  // TODO: Set this to a value read from enc.properties
+      buildConfigField "String", "API_KEY", project.properties['api_key']
     }
   }
 
