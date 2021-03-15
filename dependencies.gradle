@@ -4,7 +4,7 @@ ext {
     minSdk    : 21,
     targetSdk : 30,
 
-    coroutine : "1.4.2",             // org.jetbrains.kotlinx:kotlinx-coroutines
+    coroutine : "1.4.3-native-mt",             // org.jetbrains.kotlinx:kotlinx-coroutines
     hilt      : [
       dagger: '2.33-beta'
     ],
