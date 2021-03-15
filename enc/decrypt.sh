@@ -17,8 +17,8 @@ checkEnv() {
 checkEnv PLAYGROUND_ENCRYPT_KEY
 
 echo "> Decrypting files"
-openssl aes-256-cbc -a -d -md sha256 -in enc/release.keystore.aes -out signing/release.keystore -k PLAYGROUND_ENCRYPT_KEY
-openssl aes-256-cbc -a -d -md sha256 -in enc/enc.properties.aes -out enc.properties -k PLAYGROUND_ENCRYPT_KEY
+openssl aes-256-cbc -d -md sha512 -salt -pbkdf2 -iter 10000 -in enc/release.keystore.aes -out signing/release.keystore -k PLAYGROUND_ENCRYPT_KEY
+openssl aes-256-cbc -d -md sha512 -salt -pbkdf2 -iter 10000 -in enc/enc.properties.aes -out enc.properties -k PLAYGROUND_ENCRYPT_KEY
 echo "> Files decrypted"
 
 echo "> Finishing up"

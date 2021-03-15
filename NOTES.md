@@ -219,3 +219,18 @@ signingConfigs {
 	}
 }
 ```
+
+----
+
+Getting a warning when trying to decrypt files on Github Actions. Looks like my version of `openssl` doesn't not include deprecation notices for the "derivation key" that I'm using.
+```
+> Old command
+openssl aes-256-cbc -a -md sha256 ...
+
+> New command
+openssl aes-256-cbc -md sha512 -salt -pbkdf2 -iter 10000 ...
+
+*** WARNING : deprecated key derivation used.
+Using -iter or -pbkdf2 would be better.
+bad decrypt
+```

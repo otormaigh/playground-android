@@ -46,8 +46,8 @@ jobs:
         env:
           ENCRYPT_KEY: ${{ secrets.PLAYGROUND_ENCRYPT_KEY }}
         run : |
-          openssl aes-256-cbc -a -d -md sha256 -in enc/release.keystore.aes -out signing/release.keystore -k $ENCRYPT_KEY
-          openssl aes-256-cbc -a -d -md sha256 -in enc/enc.properties.aes -out enc.properties -k $ENCRYPT_KEY
+          openssl aes-256-cbc -d -md sha512 -salt -pbkdf2 -iter 10000 -in enc/release.keystore.aes -out signing/release.keystore -k $ENCRYPT_KEY
+          openssl aes-256-cbc -d -md sha512 -salt -pbkdf2 -iter 10000 -in enc/enc.properties.aes -out enc.properties -k $ENCRYPT_KEY
       - name: Assemble Release
         run: ./gradlew clean assembleLiveRelease bundleLiveRelease --stacktrace --scan
       - name: Archive APKs
