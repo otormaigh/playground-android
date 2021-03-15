@@ -6,10 +6,6 @@ on:
       - master
   pull_request:
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required in script/download_latest_apk
-  GITHUB_REPOSITORY: ${{ github.repository }} # required in script/download_latest_apk
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -45,17 +41,27 @@ jobs:
         run: ./gradlew lint --stacktrace --scan
       - name: Unit Test
         run: ./gradlew test --stacktrace --scan
-      - name: Assemble Release
-        run: ./gradlew clean assembleLiveRelease --stacktrace --scan
 
+      - name: Decrypt secrets
+        env:
+          ENCRYPT_KEY: ${{ secrets.PLAYGROUND_ENCRYPT_KEY }}
+        run : |
+          openssl aes-256-cbc -a -d -md sha256 -in enc/release.keystore.aes -out signing/release.keystore -k $ENCRYPT_KEY
+          openssl aes-256-cbc -a -d -md sha256 -in enc/enc.properties.aes -out enc.properties -k $ENCRYPT_KEY
+      - name: Assemble Release
+        run: ./gradlew clean assembleLiveRelease bundleLiveRelease --stacktrace --scan
       - name: Archive APKs
-        run: cp app/build/outputs/apk/live/release/*.apk release-${{ github.sha }}.apk
-      - name: Upload archived APKs
+        run: |
+          cp app/build/outputs/apk/live/release/*.apk release-${{ github.sha }}.apk
+          cp app/build/outputs/bundle/liveRelease/*.aab release-${{ github.sha }}.aab
+      - name: Upload archived assets
         uses: actions/upload-artifact@v2.2.1
         with:
-          name: apks
-          path: '*.apk'
-          retention-days: 30
+          name: build-archive
+          path: |
+            '*.apk'
+            '*.aab'
+          retention-days: 1
       - name: Push APK to assets/master
         if: github.ref == 'refs/heads/master'
         run: |
@@ -64,9 +70,16 @@ jobs:
           git checkout --orphan assets/master
           git rm --cached -r .
           cp -r app/build/outputs/apk/live/release assets
+          cp -r app/build/outputs/bundle/liveRelease assets
           git add assets
           git commit -m 'add assets from ${{ github.sha }}'
           git push -f origin assets/master
+
+      - name: Remove encrypted files
+        if: always()
+        run: |
+          rm -rf signing/release
+          rm -rf enc.properties
 
   apk-stats:
     if: ${{ github.event_name == 'pull_request' }}
@@ -77,18 +90,26 @@ jobs:
       - name: Download Action APK
         uses: actions/download-artifact@v2.0.6
         with:
-          name: apks
+          name: build-archive
       - name: Download Latest assets from assets/master
         run: git fetch origin && git checkout origin/assets/master assets/
 
       - name: Run diffuse
-        run: .github/script/diffuse-0.1.0-binary.jar diff assets/*.apk release-${{ github.sha }}.apk > apk-diff-${{ github.sha }}.txt
+        run: |
+          .github/bin/diffuse-0.1.0-binary.jar diff assets/*.apk release-${{ github.sha }}.apk > apk-diff-${{ github.sha }}.txt
+          .github/bin/diffuse-0.1.0-binary.jar diff assets/*.aab release-${{ github.sha }}.aab > aab-diff-${{ github.sha }}.txt
       - name: Prepare PR comment
-        run: printf "### Diffuse stats for \`$(echo ${GITHUB_BASE_REF} | cut -c1-7)\` ➡ $(echo ${GITHUB_SHA} | cut -c1-7) \n\n\`\`\`\n" > pr-comment.txt && sed '/====   DEX   ====/q' apk-diff-${{ github.sha }}.txt | tac | sed "1,2d" | tac | sed -e :a -e '/^\n*$/{$d;N;};/\n$/ba' >> pr-comment.txt && echo "\`\`\`"  >> pr-comment.txt
-      - name: Comment PR
+        run: |
+          printf "### Diffuse stats for \`$(echo ${GITHUB_BASE_REF} | cut -c1-7)\` ➡ $(echo ${GITHUB_SHA} | cut -c1-7) \n\n\`\`\`\n" > apk-pr-comment.txt && sed '/====   DEX   ====/q' apk-diff-${{ github.sha }}.txt | tac | sed "1,2d" | tac | sed -e :a -e '/^\n*$/{$d;N;};/\n$/ba' >> apk-pr-comment.txt && echo "\`\`\`"  >> apk-pr-comment.txt
+          printf "### Diffuse stats for \`$(echo ${GITHUB_BASE_REF} | cut -c1-7)\` ➡ $(echo ${GITHUB_SHA} | cut -c1-7) \n\n\`\`\`\n" > aab-pr-comment.txt && sed '/====   DEX   ====/q' aab-diff-${{ github.sha }}.txt | tac | sed "1,2d" | tac | sed -e :a -e '/^\n*$/{$d;N;};/\n$/ba' >> aab-pr-comment.txt && echo "\`\`\`"  >> aab-pr-comment.txt
+      - name: Add APK diff
         uses: machine-learning-apps/pr-comment@1.0.0
         with:
-          path: pr-comment.txt
+          path: apk-pr-comment.txt
+      - name: Add AAB diff
+        uses: machine-learning-apps/pr-comment@1.0.0
+        with:
+          path: aab-pr-comment.txt
       - name: Upload full diff
         uses: actions/upload-artifact@v2.2.1
         with:
