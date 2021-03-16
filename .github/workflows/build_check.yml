@@ -44,7 +44,7 @@ jobs:
       - name: Decrypt secrets
         env:
           PLAYGROUND_ENCRYPT_KEY: ${{ secrets.PLAYGROUND_ENCRYPT_KEY }}
-        run: sh enc/decrypt.sh
+        run: ./enc/decrypt.sh
       - name: Assemble Release
         run: ./gradlew clean assembleLiveRelease bundleLiveRelease --stacktrace --scan
       - name: Archive APKs
