@@ -41,6 +41,8 @@ jobs:
         run: ./gradlew lint --stacktrace --scan
       - name: Unit Test
         run: ./gradlew test --stacktrace --scan
+      - name: Assemble Release
+        run: ./gradlew clean assembleLiveRelease bundleLiveRelease --stacktrace --scan
 
       - name: Decrypt secrets
         run : |
@@ -67,8 +69,8 @@ jobs:
           git config user.email "elliot.tormey@gmail.com"
           git checkout --orphan assets/master
           git rm --cached -r .
-          cp -r app/build/outputs/apk/live/release assets
-          cp -r app/build/outputs/bundle/liveRelease assets
+          cp -R app/build/outputs/apk/live/release/. assets
+          cp -R app/build/outputs/bundle/liveRelease/. assets
           git add assets
           git commit -m 'add assets from ${{ github.sha }}'
           git push -f origin assets/master
@@ -111,5 +113,7 @@ jobs:
       - name: Upload full diff
         uses: actions/upload-artifact@v2.2.1
         with:
-          name: apk-diffs
-          path: apk-diff-${{ github.sha }}.txt
+          name: diff-report
+          path: |
+            apk-diff-${{ github.sha }}.txt
+            aab-diff-${{ github.sha }}.txt
