@@ -234,3 +234,34 @@ openssl aes-256-cbc -md sha512 -salt -pbkdf2 -iter 10000 ...
 Using -iter or -pbkdf2 would be better.
 bad decrypt
 ```
+
+### 16/03/2021
+Dependabot is failing to fetch updates for this project. It seems to be falling back to an internal default repo URL (`https://repo.maven.apache.org:443/maven2`) if none can be found in the project, I'm assuming it can't 'see' the repo block in the `settings.gradle` file.
+
+I've traced it down to the new `dependencyResolutionManagement` blocking being used in the `settings.gradle` file. Reverting back to the 'old' way using the root/build.gradle file fixes this.
+
+```
+settings.gradle
+---------------
+
+dependencyResolutionManagement {
+  repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+  repositories {
+    google()
+    mavenCentral()
+  }
+}
+
+
+root/build.gradle
+-----------------
+allprojects {
+  repositories {
+    google()
+    mavenCentral()
+  }
+}
+
+```
+
+I've created an issue on the Dependabot repo for this https://github.com/dependabot/dependabot-core/issues/3286
