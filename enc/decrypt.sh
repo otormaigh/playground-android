@@ -11,4 +11,5 @@ if [[ -n "$PLAYGROUND_ENCRYPT_KEY" ]]; then
   echo "> Finishing up"
 else
   echo "> PLAYGROUND_ENCRYPT_KEY is undefined, exiting..."
+  exit 1
 fi
