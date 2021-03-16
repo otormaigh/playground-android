@@ -265,3 +265,9 @@ allprojects {
 ```
 
 I've created an issue on the Dependabot repo for this https://github.com/dependabot/dependabot-core/issues/3286
+
+
+----
+
+
+I was having some problems with Github secrets not being accessible by Pull Requests that were created by Dependabot. Github do this on purpose so that forks don't maliciously try to expose any repo secrets. There is section in the Github settings that allow you you create secrets specfici to apps, I did add one there but it still wasn't accessible by Dependabot PRs, if I manually click 'Re-run job' then it would be accessible so I don't know if it it was me manually re-running the job that 'fixed' it or if it was a delayed settings update. I'll know for sure once the next Dependabot PR comes through.
