@@ -41,9 +41,6 @@ jobs:
         run: ./gradlew lint --stacktrace --scan
       - name: Unit Test
         run: ./gradlew test --stacktrace --scan
-      - name: Assemble Release
-        run: ./gradlew clean assembleLiveRelease bundleLiveRelease --stacktrace --scan
-
       - name: Decrypt secrets
         run : |
           openssl aes-256-cbc -d -md sha512 -salt -pbkdf2 -iter 10000 -in enc/release.keystore.aes -out signing/release.keystore -k ${{ secrets.PLAYGROUND_ENCRYPT_KEY }}
