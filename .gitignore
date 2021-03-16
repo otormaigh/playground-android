@@ -16,3 +16,8 @@ build
 
 # OSX
 .DS_Store
+
+# Encrypted files
+enc.properties
+signing/private_key.pepk
+signing/release.keystore

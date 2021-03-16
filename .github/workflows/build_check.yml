@@ -6,10 +6,6 @@ on:
       - master
   pull_request:
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required in script/download_latest_apk
-  GITHUB_REPOSITORY: ${{ github.repository }} # required in script/download_latest_apk
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -48,11 +44,17 @@ jobs:
       - name: Assemble Release
         run: ./gradlew clean assembleLiveRelease bundleLiveRelease --stacktrace --scan
 
+      - name: Decrypt secrets
+        run : |
+          openssl aes-256-cbc -d -md sha512 -salt -pbkdf2 -iter 10000 -in enc/release.keystore.aes -out signing/release.keystore -k ${{ secrets.PLAYGROUND_ENCRYPT_KEY }}
+          openssl aes-256-cbc -d -md sha512 -salt -pbkdf2 -iter 10000 -in enc/enc.properties.aes -out enc.properties -k ${{ secrets.PLAYGROUND_ENCRYPT_KEY }}
+      - name: Assemble Release
+        run: ./gradlew clean assembleLiveRelease bundleLiveRelease --stacktrace --scan
       - name: Archive APKs
         run: |
           cp app/build/outputs/apk/live/release/*.apk release-${{ github.sha }}.apk
           cp app/build/outputs/bundle/liveRelease/*.aab release-${{ github.sha }}.aab
-      - name: Upload archived APKs
+      - name: Upload archived assets
         uses: actions/upload-artifact@v2.2.1
         with:
           name: build-archive
@@ -73,6 +75,12 @@ jobs:
           git commit -m 'add assets from ${{ github.sha }}'
           git push -f origin assets/master
 
+      - name: Remove encrypted files
+        if: always()
+        run: |
+          rm -rf signing/release
+          rm -rf enc.properties
+
   apk-stats:
     if: ${{ github.event_name == 'pull_request' }}
     needs: build
@@ -82,7 +90,7 @@ jobs:
       - name: Download Action APK
         uses: actions/download-artifact@v2.0.6
         with:
-          name: apks
+          name: build-archive
       - name: Download Latest assets from assets/master
         run: git fetch origin && git checkout origin/assets/master assets/
 
