@@ -6,3 +6,10 @@ updates:
     interval: daily
   open-pull-requests-limit: 99
   target-branch: master
+
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: "daily"
+  open-pull-requests-limit: 99
+  target-branch: master
