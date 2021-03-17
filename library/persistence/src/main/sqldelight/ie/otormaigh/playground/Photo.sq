@@ -10,16 +10,7 @@ CREATE TABLE Photo (
 selectAll:
 SELECT * FROM Photo;
 
-insert:
-INSERT
+upsert:
+INSERT OR REPLACE
 INTO Photo
 VALUES ?;
-
-upsert:
-UPDATE Photo
-SET sol = ?,
-    camera = ?,
-    img = ?,
-    earth_date = ?,
-    rover = ?
-WHERE id = ?;

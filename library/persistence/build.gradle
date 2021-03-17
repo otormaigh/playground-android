@@ -57,6 +57,11 @@ dependencies {
 
   implementation deps.google.dagger.hilt.android
   kapt deps.google.dagger.hilt.compiler
+
+  testImplementation deps.google.truth
+  testImplementation deps.junit
+  testImplementation deps.mockk
+  testImplementation deps.square.sqldelight.test
 }
 
 sqldelight {

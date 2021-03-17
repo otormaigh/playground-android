@@ -5,11 +5,3 @@ CREATE TABLE Rover (
   launch_date TEXT NOT NULL,
   status TEXT NOT NULL
 );
-
-upsert:
-UPDATE Rover
-SET name = ?,
-    landing_date = ?,
-    launch_date = ?,
-    status = ?
-WHERE id = ?;

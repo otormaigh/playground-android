@@ -4,10 +4,3 @@ CREATE TABLE Camera (
   rover_id INTEGER NOT NULL,
   full_name TEXT NOT NULL
 );
-
-upsert:
-UPDATE Camera
-SET name = ?,
-    rover_id = ?,
-    full_name = ?
-WHERE id = ?;
