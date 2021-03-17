@@ -18,6 +18,8 @@ allprojects {
   repositories {
     google()
     mavenCentral()
+
+    maven { url "https://kotlin.bintray.com/kotlinx" } // NOTES#15-03-2021
   }
 }
 

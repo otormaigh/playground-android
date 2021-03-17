@@ -3,6 +3,7 @@ plugins {
   id 'kotlin-android'
   id 'kotlin-kapt'
   id 'dagger.hilt.android.plugin'
+  id 'org.jetbrains.kotlin.android'
 }
 
 android {
@@ -50,6 +51,11 @@ android {
 
   buildFeatures {
     viewBinding true
+    compose true
+  }
+
+  composeOptions {
+    kotlinCompilerExtensionVersion versions.compose
   }
 }
 
@@ -63,9 +69,16 @@ dependencies {
   implementation deps.androidx.fragment
   implementation deps.androidx.recyclerview
 
+  implementation deps.androidx.activity_compose
+  implementation deps.androidx.compose.ui
+  implementation deps.androidx.compose.ui_tooling
+  implementation deps.androidx.compose.foundation
+  implementation deps.androidx.compose.material
+
   implementation deps.google.dagger.hilt.android
   kapt deps.google.dagger.hilt.compiler
 
   implementation deps.timber
   implementation deps.coil
+  implementation "dev.chrisbanes.accompanist:accompanist-coil:0.6.2"
 }

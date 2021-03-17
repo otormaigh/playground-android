@@ -86,6 +86,14 @@ android {
   kotlinOptions {
     jvmTarget = JavaVersion.VERSION_11.toString()
   }
+
+  buildFeatures {
+    compose true
+  }
+
+  composeOptions {
+    kotlinCompilerExtensionVersion versions.compose
+  }
 }
 
 dependencies {
@@ -95,8 +103,15 @@ dependencies {
 
   implementation deps.androidx.appcompat
   implementation deps.androidx.core_ktx
+  implementation deps.androidx.navigation.compose
   implementation deps.androidx.navigation.fragment
   implementation deps.androidx.navigation.ui
+
+  implementation deps.androidx.activity_compose
+  implementation deps.androidx.compose.ui
+  implementation deps.androidx.compose.ui_tooling
+  implementation deps.androidx.compose.foundation
+  implementation deps.androidx.compose.material
 
   implementation deps.google.material
 

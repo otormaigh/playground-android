@@ -244,6 +244,31 @@ Using -iter or -pbkdf2 would be better.
 bad decrypt
 ```
 
+----
+
+Looks like the Jetpack Compose dependencies have an internal dependency on `org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm:0.3.3` which can't be resolved through
+`mavenCentral()`
+
+```
+Execution failed for task ':feature:photos:dataBindingMergeDependencyArtifactsLiveDebug'.
+> Could not resolve all files for configuration ':feature:photos:liveDebugRuntimeClasspath'.
+   > Could not find org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm:0.3.3.
+     Searched in the following locations:
+       - https://dl.google.com/dl/android/maven2/org/jetbrains/kotlinx/kotlinx-collections-immutable-jvm/0.3.3/kotlinx-collections-immutable-jvm-0.3.3.pom
+       - https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-collections-immutable-jvm/0.3.3/kotlinx-collections-immutable-jvm-0.3.3.pom
+     Required by:
+         project :feature:photos > androidx.compose.ui:ui:1.0.0-beta02 > androidx.compose.runtime:runtime:1.0.0-beta02
+
+```
+
+Adding the maven URL for the `kotlinx` repository solves this without having to add the `jcenter()` repo to the list.
+
+```
+repositories {
+  maven { url "https://kotlin.bintray.com/kotlinx" }
+}
+```
+
 ### 16/03/2021
 Dependabot is failing to fetch updates for this project. It seems to be falling back to an internal default repo URL (`https://repo.maven.apache.org:443/maven2`) if none can be
 found in the project, I'm assuming it can't 'see' the repo block in the `settings.gradle` file.
