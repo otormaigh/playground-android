@@ -292,3 +292,11 @@ The above Dependabot issue seems to be a 'feature'. There is a relevant bug [her
 ability to decrypt the release keystore on the Dependabot builds and only build the full release with real signing keys through the master branch. This is going to cause a
 signing conflict on the diffuse output, but that's not too much of an issue. The setting I found that allows you to supply secrets to Dependabot appears to only allow access
 within the `dependabot.yml` config file/step rather than within any 'external' step (see [here](https://docs.github.com/en/github/administering-a-repository/managing-encrypted-secrets-for-dependabot).
+
+
+----
+
+
+I've added a step to Github Actions to publish JUnit test results as both a comment counting overall pass/fails and annotations on within the Check tab on a PR that will
+highlight each individual failing test. Looking through the issues for the Action that I'm using for this (EnricoMi/publish-unit-test-result-action) this appears to be effected
+by the same issue that is plaguing Dependabot at the moment in regards to forked PRs not being able to read repo secrets. I would of liked for this to run on dependabot PRs.
