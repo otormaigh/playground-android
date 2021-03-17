@@ -2,9 +2,13 @@ name: Build + Check + APK Stats
 
 on:
   push:
+    paths-ignore:
+      - 'NOTES.md'
     branches:
       - master
   pull_request:
+    paths-ignore:
+      - 'NOTES.md'
 
 jobs:
   build:
