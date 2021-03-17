@@ -36,7 +36,8 @@ tasks.withType(Test) {
 ```
 
 ### 13/03/2021
-Command line clean builds fail after adding SQLDelight dependency, Android Studio builds are fine when adding the SQLDelight plugin. Need to add a task dependency to generate the SQLDelight class.2021
+Command line clean builds fail after adding SQLDelight dependency, Android Studio builds are fine when adding the SQLDelight plugin. Need to add a task dependency to generate the
+SQLDelight class.2021
 ```
 tasks.getByName("preBuild").dependsOn(":library:persistence:generateSqlDelightInterface")
 ```
@@ -63,7 +64,8 @@ id 'dagger.hilt.android.plugin'
 
 ----
 
-Theres a couple of Gradle tasks that can be run to both generate a Database Schema file and then validate any migrations that are present in the project. These can and should be run locally, but on the occasions that this step is forgotten, we can run this on the CI to check this and fail the build as required.
+Theres a couple of Gradle tasks that can be run to both generate a Database Schema file and then validate any migrations that are present in the project. These can and should be
+run locally, but on the occasions that this step is forgotten, we can run this on the CI to check this and fail the build as required.
 
 Generate a Database schema file based off the latest schema version and the `.sq` table files present in the project. Optionally add an output directory for the database files
 ```
@@ -87,7 +89,8 @@ sqldelight {
 ./gradlew verifySqlDelightMigration
 ```
 
-Add a step to the CI to first try and generate a database schema file, if there were any files changes caused by this task it means that we have probably skipped this step locally and there may not be a migration present relative to these changes, fail the build, otherwise try and validate the migrations that are present.
+Add a step to the CI to first try and generate a database schema file, if there were any files changes caused by this task it means that we have probably skipped this step locally
+and there may not be a migration present relative to these changes, fail the build, otherwise try and validate the migrations that are present.
 ```
 - name: Validate Database schema changes
   run: |
@@ -102,7 +105,8 @@ Add a step to the CI to first try and generate a database schema file, if there 
 
 
 ###14/03/2021
-When adding a new column to the `Camera` table, rather than adding the new column to the end of the list, I added it so it would match the `CameraResponse` object between the `id` and `rover_id` field.
+When adding a new column to the `Camera` table, rather than adding the new column to the end of the list, I added it so it would match the `CameraResponse` object between the `id`
+and `rover_id` field.
 
 ```
 > Old schema
@@ -134,7 +138,8 @@ But when running the `verifySqlDelightMigration` task with the basic `ALTER TABL
      /tables[Camera]/columns[Camera.name]/ordinalPosition - CHANGED
 ```
 
-Unsure how to set the `ordinalPosition` or why `defaultValue` is causing an issue, I moved the column to the end of the list and re-ran the migration with the same command. This resulted in the following error:
+Unsure how to set the `ordinalPosition` or why `defaultValue` is causing an issue, I moved the column to the end of the list and re-ran the migration with the same command. This
+resulted in the following error:
 ```
 > Update schema
 CREATE TABLE Camera (
@@ -150,7 +155,8 @@ CREATE TABLE Camera (
 
 ```
 
-The only way I found to run a successful migration was to create a copy of the table, set the desired 'ordinal position' and then copy over the data from the 'old' table. I'm not sure how to define the ordinal position through a migration otherwise, or even that the position was a requirement.
+The only way I found to run a successful migration was to create a copy of the table, set the desired 'ordinal position' and then copy over the data from the 'old' table. I'm not
+sure how to define the ordinal position through a migration otherwise, or even that the position was a requirement.
 
 ----
 
@@ -182,12 +188,14 @@ Execution failed for task ':feature:photos:exportLiveReleaseConsumerProguardFile
 
 ```
 
-Looks like the postprocessing block is setting that default file by default, not sure how to unset it. Using the 'old' way and just defining the `proguardFiles` fixes the above two errors'
+Looks like the postprocessing block is setting that default file by default, not sure how to unset it. Using the 'old' way and just defining the `proguardFiles` fixes the above
+two errors'
 
 
 ----
 
-Looks like using dynamic feature modules with Dagger.Hilt is a no-go for the moment, at least being able to use it within any extra effort. https://developer.android.com/training/dependency-injection/hilt-multi-module#dfm
+Looks like using dynamic feature modules with Dagger.Hilt is a no-go for the moment, at least being able to use it within any extra effort.
+https://developer.android.com/training/dependency-injection/hilt-multi-module#dfm
 https://github.com/google/dagger/issues/1865
 ```
 java.lang.RuntimeException: Unable to start activity ComponentInfo{ie.otormaigh.playground.debug/ie.otormaigh.playground.MainActivity}: java.lang.ClassCastException: ie.otormaigh.playground.DaggerPlaygroundApplication_HiltComponents_SingletonC$ActivityRetainedCImpl$ActivityCImpl$FragmentCImpl cannot be cast to ie.otormaigh.playground.feature.photos.PhotoListFragment_GeneratedInjector
@@ -197,7 +205,8 @@ java.lang.RuntimeException: Unable to start activity ComponentInfo{ie.otormaigh.
 ----
 
 
-Build error from Dagger. This error traces back to the `Retrofit` dependencies in the `:library:networking` module, it seems that Dagger needs to be able to 'see' that dependency all the way up as far asa the module that contains the `@HiltAndroidApp` annotation.
+Build error from Dagger. This error traces back to the `Retrofit` dependencies in the `:library:networking` module, it seems that Dagger needs to be able to 'see' that dependency
+all the way up as far asa the module that contains the `@HiltAndroidApp` annotation.
 ```
 Execution failed for task ':app:kaptLiveDebugKotlin'.
 > A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
@@ -236,9 +245,11 @@ bad decrypt
 ```
 
 ### 16/03/2021
-Dependabot is failing to fetch updates for this project. It seems to be falling back to an internal default repo URL (`https://repo.maven.apache.org:443/maven2`) if none can be found in the project, I'm assuming it can't 'see' the repo block in the `settings.gradle` file.
+Dependabot is failing to fetch updates for this project. It seems to be falling back to an internal default repo URL (`https://repo.maven.apache.org:443/maven2`) if none can be
+found in the project, I'm assuming it can't 'see' the repo block in the `settings.gradle` file.
 
-I've traced it down to the new `dependencyResolutionManagement` blocking being used in the `settings.gradle` file. Reverting back to the 'old' way using the root/build.gradle file fixes this.
+I've traced it down to the new `dependencyResolutionManagement` blocking being used in the `settings.gradle` file. Reverting back to the 'old' way using the root/build.gradle file
+fixes this.
 
 ```
 settings.gradle
@@ -270,4 +281,14 @@ I've created an issue on the Dependabot repo for this https://github.com/dependa
 ----
 
 
-I was having some problems with Github secrets not being accessible by Pull Requests that were created by Dependabot. Github do this on purpose so that forks don't maliciously try to expose any repo secrets. There is section in the Github settings that allow you you create secrets specfici to apps, I did add one there but it still wasn't accessible by Dependabot PRs, if I manually click 'Re-run job' then it would be accessible so I don't know if it it was me manually re-running the job that 'fixed' it or if it was a delayed settings update. I'll know for sure once the next Dependabot PR comes through.
+I was having some problems with Github secrets not being accessible by Pull Requests that were created by Dependabot. Github do this on purpose so that forks don't maliciously try
+to expose any repo secrets. There is section in the Github settings that allow you you create secrets specific to apps, I did add one there but it still wasn't accessible by
+Dependabot PRs, if I manually click 'Re-run job' then it would be accessible so I don't know if it it was me manually re-running the job that 'fixed' it or if it was a delayed
+settings update. I'll know for sure once the next Dependabot PR comes through.
+
+
+### 17/03/2021
+The above Dependabot issue seems to be a 'feature'. There is a relevant bug [here](https://github.com/dependabot/dependabot-core/issues/3253). I think I may just remove the
+ability to decrypt the release keystore on the Dependabot builds and only build the full release with real signing keys through the master branch. This is going to cause a
+signing conflict on the diffuse output, but that's not too much of an issue. The setting I found that allows you to supply secrets to Dependabot appears to only allow access
+within the `dependabot.yml` config file/step rather than within any 'external' step (see [here](https://docs.github.com/en/github/administering-a-repository/managing-encrypted-secrets-for-dependabot).
