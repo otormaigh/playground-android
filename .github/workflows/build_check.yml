@@ -20,6 +20,7 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
+            **/build/**
           key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
 
@@ -45,6 +46,19 @@ jobs:
         run: ./gradlew lint --stacktrace --scan
       - name: Unit Test
         run: ./gradlew test --stacktrace --scan
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v2.2.1
+        with:
+          name: report-archive
+          path: |
+            app/build/test-results
+            library/networking/build/test-results
+            library/persistence/build/test-results
+            library/store/build/test-results
+            feature/photos/build/test-results
+          retention-days: 1
+
       - name: Decrypt secrets
         env:
           PLAYGROUND_ENCRYPT_KEY: ${{ secrets.PLAYGROUND_ENCRYPT_KEY }}
@@ -124,3 +138,21 @@ jobs:
           path: |
             apk-diff-${{ github.sha }}.txt
             aab-diff-${{ github.sha }}.txt
+  publish-unit-test-result:
+    if: ${{ github.event_name == 'pull_request' }}
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Unit test results
+        if: always()
+        uses: actions/download-artifact@v2.0.6
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+          name: report-archive
+      - name: Publish Unit Test Results
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v1.9
+        with:
+          commit: ${{ github.event.workflow_run.head_sha }}
+          files: '**/build/test-results/**/TEST-*.xml'
