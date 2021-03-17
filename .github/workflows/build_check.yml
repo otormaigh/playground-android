@@ -103,7 +103,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2.3.4
       - name: Download Action APK
-        uses: actions/download-artifact@v2.0.6
+        uses: actions/download-artifact@v2.0.8
         with:
           name: build-archive
       - name: Download Latest assets from assets/master
@@ -146,7 +146,7 @@ jobs:
     steps:
       - name: Download Unit test results
         if: always()
-        uses: actions/download-artifact@v2.0.6
+        uses: actions/download-artifact@v2.0.8
         with:
           ref: ${{ github.event.workflow_run.head_branch }}
           name: report-archive
