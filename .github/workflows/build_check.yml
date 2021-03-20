@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: otormaigh/step-setup@v1
+      - uses: ./.github/otormaigh/step-setup
 
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.3
@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: otormaigh/step-setup@v1
+      - uses: ./.github/otormaigh/step-setup
 
       - name: Quality checks
         run: ./gradlew lint --stacktrace --scan
@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: otormaigh/step-setup@v1
+      - uses: ./.github/otormaigh/step-setup
 
       - name: Unit Test
         run: ./gradlew test --stacktrace --scan
@@ -70,7 +70,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: otormaigh/step-setup@v1
+      - uses: ./.github/otormaigh/step-setup
 
       - name: Decrypt secrets
         env:
