@@ -67,7 +67,7 @@ dependencies {
 sqldelight {
   Database {
     packageName = "ie.otormaigh.playground.sqldelight"
-    schemaOutputDirectory = file("src/main/sqldelight/databases")
+    schemaOutputDirectory = file("src/main/sqldelight/ie/otormaigh/playground/.databases")
     verifyMigrations = true
   }
 }
