@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2.3.4
       - uses: ./.github/otormaigh/step-setup
 
       - name: Validate Gradle Wrapper
@@ -36,6 +37,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2.3.4
       - uses: ./.github/otormaigh/step-setup
 
       - name: Quality checks
@@ -46,6 +48,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2.3.4
       - uses: ./.github/otormaigh/step-setup
 
       - name: Unit Test
@@ -70,6 +73,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2.3.4
       - uses: ./.github/otormaigh/step-setup
 
       - name: Decrypt secrets
