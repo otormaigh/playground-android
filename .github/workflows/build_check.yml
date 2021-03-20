@@ -11,7 +11,7 @@ on:
       - 'NOTES.md'
 
 jobs:
-  build:
+  pre-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.4
@@ -23,14 +23,13 @@ jobs:
             **/build/**
           key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
-
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1.0.3
       - name: Setup Java
         uses: actions/setup-java@v1.4.3
         with:
           java-version: 11
 
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1.0.3
       - name: Install dependencies
         run: ./gradlew dependencies --stacktrace --scan
       - name: Validate Database schema changes
@@ -42,8 +41,46 @@ jobs:
           else
             ./gradlew verifySqlDelightMigration --stacktrace --scan
           fi
+
+  check:
+    needs: pre-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - uses: actions/cache@v2.1.4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            **/build/**
+          key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+      - name: Setup Java
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
+
       - name: Quality checks
         run: ./gradlew lint --stacktrace --scan
+
+  test:
+    needs: pre-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - uses: actions/cache@v2.1.4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            **/build/**
+          key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+      - name: Setup Java
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
+
       - name: Unit Test
         run: ./gradlew test --stacktrace --scan
       - name: Upload reports
@@ -58,6 +95,26 @@ jobs:
             library/store/build/test-results
             feature/photos/build/test-results
           retention-days: 1
+
+  build:
+    needs:
+      - check
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - uses: actions/cache@v2.1.4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            **/build/**
+          key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+      - name: Setup Java
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
 
       - name: Decrypt secrets
         env:
@@ -102,12 +159,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.4
+        with:
+          ref: assets/master
       - name: Download Action APK
         uses: actions/download-artifact@v2.0.8
         with:
           name: build-archive
-      - name: Download Latest assets from assets/master
-        run: git fetch origin && git checkout origin/assets/master assets/
 
       - name: Run diffuse on APK
         run: |
@@ -138,6 +195,7 @@ jobs:
           path: |
             apk-diff-${{ github.sha }}.txt
             aab-diff-${{ github.sha }}.txt
+
   publish-unit-test-result:
     if: ${{ github.event_name == 'pull_request' }}
     needs: build
