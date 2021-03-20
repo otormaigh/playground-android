@@ -25,7 +25,7 @@ class PhotoQueriesTest {
   }
 
   @Test
-  fun testInsertConflict() {
+  fun testInsertOrReplace() {
     val photo = Photo(
       id = 102693,
       sol = 1000,
@@ -46,21 +46,21 @@ class PhotoQueriesTest {
       )
     )
 
-    database.photoQueries.upsert(photo)
+    database.photoQueries.insertOrReplace(photo)
     assertThat(database.photoQueries.selectAll().executeAsList().size)
       .isEqualTo(1)
     assertThat(database.photoQueries.selectAll().executeAsOne().sol)
       .isEqualTo(1000)
 
     // Photo.sol update
-    database.photoQueries.upsert(photo.copy(sol = 1001))
+    database.photoQueries.insertOrReplace(photo.copy(sol = 1001))
     assertThat(database.photoQueries.selectAll().executeAsList().size)
       .isEqualTo(1)
     assertThat(database.photoQueries.selectAll().executeAsOne().sol)
       .isEqualTo(1001)
 
     // Rover.name update
-    database.photoQueries.upsert(photo.copy(rover = photo.rover.copy(name = "Perseverence")))
+    database.photoQueries.insertOrReplace(photo.copy(rover = photo.rover.copy(name = "Perseverence")))
     assertThat(database.photoQueries.selectAll().executeAsList().size)
       .isEqualTo(1)
     assertThat(database.photoQueries.selectAll().executeAsOne().rover.name)

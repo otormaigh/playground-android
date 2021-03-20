@@ -10,7 +10,7 @@ CREATE TABLE Photo (
 selectAll:
 SELECT * FROM Photo;
 
-upsert:
+insertOrReplace:
 INSERT OR REPLACE
 INTO Photo
 VALUES ?;

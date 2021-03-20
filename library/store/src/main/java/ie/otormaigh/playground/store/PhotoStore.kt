@@ -38,7 +38,7 @@ constructor(
       )
 
       response.photos.mapToDatabase().forEach {
-        database.photoQueries.upsert(it)
+        database.photoQueries.insertOrReplace(it)
       }
 
       return query.selectAll().asFlow().mapToList()
