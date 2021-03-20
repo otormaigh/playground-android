@@ -47,6 +47,8 @@ android {
   kotlinOptions {
     jvmTarget = JavaVersion.VERSION_11.toString()
   }
+
+  sourceSets.main.java.srcDirs += ['src/main/sqldelight']
 }
 
 dependencies {

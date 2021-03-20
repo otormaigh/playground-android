@@ -300,3 +300,13 @@ within the `dependabot.yml` config file/step rather than within any 'external' s
 I've added a step to Github Actions to publish JUnit test results as both a comment counting overall pass/fails and annotations on within the Check tab on a PR that will
 highlight each individual failing test. Looking through the issues for the Action that I'm using for this (EnricoMi/publish-unit-test-result-action) this appears to be effected
 by the same issue that is plaguing Dependabot at the moment in regards to forked PRs not being able to read repo secrets. I would of liked for this to run on dependabot PRs.
+
+### 20/03/2021
+Minor improvement to help with project file discoverability is to add the SQLDelight pacakge containing the `sq`, `sqm` and database schema files to the `sourceSets` for the
+`main` package. This then shows those files in the 'Project' tab while in 'Android' mode. Saves on having to switch back and forth to view those files.
+
+```
+android {
+  sourceSets.main.java.srcDirs += ['src/main/sqldelight']
+}
+```
