@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2.3.4
-      - uses: ./.github/otormaigh/step-setup
+      - uses: ./.github/actions/step-setup
 
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.3
@@ -38,7 +38,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2.3.4
-      - uses: ./.github/otormaigh/step-setup
+      - uses: ./.github/actions/step-setup
 
       - name: Quality checks
         run: ./gradlew lint --stacktrace --scan
@@ -49,7 +49,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2.3.4
-      - uses: ./.github/otormaigh/step-setup
+      - uses: ./.github/actions/step-setup
 
       - name: Unit Test
         run: ./gradlew test --stacktrace --scan
@@ -74,7 +74,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2.3.4
-      - uses: ./.github/otormaigh/step-setup
+      - uses: ./.github/actions/step-setup
 
       - name: Decrypt secrets
         env:
