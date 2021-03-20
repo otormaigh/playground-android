@@ -13,20 +13,9 @@ on:
 jobs:
   pre-build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2.3.4
-      - uses: actions/cache@v2.1.4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-            **/build/**
-          key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
-      - name: Setup Java
-        uses: actions/setup-java@v1.4.3
-        with:
-          java-version: 11
+      - uses: otormaigh/step-setup@v1
 
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.3
@@ -45,20 +34,9 @@ jobs:
   check:
     needs: pre-build
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2.3.4
-      - uses: actions/cache@v2.1.4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-            **/build/**
-          key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
-      - name: Setup Java
-        uses: actions/setup-java@v1.4.3
-        with:
-          java-version: 11
+      - uses: otormaigh/step-setup@v1
 
       - name: Quality checks
         run: ./gradlew lint --stacktrace --scan
@@ -66,20 +44,9 @@ jobs:
   test:
     needs: pre-build
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2.3.4
-      - uses: actions/cache@v2.1.4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-            **/build/**
-          key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
-      - name: Setup Java
-        uses: actions/setup-java@v1.4.3
-        with:
-          java-version: 11
+      - uses: otormaigh/step-setup@v1
 
       - name: Unit Test
         run: ./gradlew test --stacktrace --scan
@@ -101,20 +68,9 @@ jobs:
       - check
       - test
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2.3.4
-      - uses: actions/cache@v2.1.4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-            **/build/**
-          key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
-      - name: Setup Java
-        uses: actions/setup-java@v1.4.3
-        with:
-          java-version: 11
+      - uses: otormaigh/step-setup@v1
 
       - name: Decrypt secrets
         env:
@@ -157,6 +113,7 @@ jobs:
     if: ${{ github.event_name == 'pull_request' }}
     needs: build
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2.3.4
         with:
