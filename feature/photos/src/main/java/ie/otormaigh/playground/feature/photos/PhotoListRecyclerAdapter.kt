@@ -5,11 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
 import coil.load
 import ie.otormaigh.playground.Photo
 import ie.otormaigh.playground.feature.photos.databinding.ListItemPhotoBinding
 
-class PhotoListRecyclerAdapter : ListAdapter<Photo, PhotoListRecyclerAdapter.ViewHolder>(DIFF_UTIL) {
+class PhotoListRecyclerAdapter(private val imageLoader: ImageLoader) : ListAdapter<Photo, PhotoListRecyclerAdapter.ViewHolder>(DIFF_UTIL) {
+
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
     ViewHolder(ListItemPhotoBinding.inflate(LayoutInflater.from(parent.context)))
 
@@ -17,11 +19,16 @@ class PhotoListRecyclerAdapter : ListAdapter<Photo, PhotoListRecyclerAdapter.Vie
     holder.bind(getItem(position))
   }
 
+  override fun getItemId(position: Int): Long = getItem(position).id
+
   inner class ViewHolder(private val binding: ListItemPhotoBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: Photo) {
       // TODO: Dump image and list item if there is an error loading the image
-      binding.imageView.load(uri = item.img.replace("http://", "https://"))
+      binding.imageView.load(
+        uri = item.img.replace("http://", "https://"),
+        imageLoader = imageLoader
+      )
     }
   }
 }
