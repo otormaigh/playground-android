@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import coil.ImageLoader
+import coil.util.DebugLogger
 import dagger.hilt.android.AndroidEntryPoint
 import ie.otormaigh.playground.feature.photos.databinding.FragmentPhotoListBinding
 import ie.otormaigh.playground.store.PhotoStore
@@ -22,7 +24,13 @@ class PhotoListFragment : Fragment() {
   lateinit var photoStore: PhotoStore
 
   private lateinit var binding: FragmentPhotoListBinding
-  private val recyclerAdapter by lazy { PhotoListRecyclerAdapter() }
+  private val recyclerAdapter by lazy {
+    PhotoListRecyclerAdapter(
+      ImageLoader.Builder(requireContext())
+        .logger(DebugLogger())
+        .build()
+    )
+  }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
     binding = FragmentPhotoListBinding.inflate(inflater, container, false)
@@ -32,6 +40,7 @@ class PhotoListFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    recyclerAdapter.setHasStableIds(true)
     binding.recyclerView.adapter = recyclerAdapter
     binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
 
