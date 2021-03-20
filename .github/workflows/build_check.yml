@@ -20,7 +20,6 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-            **/build/**
           key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
       - name: Setup Java
@@ -30,8 +29,8 @@ jobs:
 
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.3
-      - name: Install dependencies
-        run: ./gradlew dependencies --stacktrace --scan
+      - name: Run dependencies
+        run: ./gradlew :app:dependencies --stacktrace --scan
       - name: Validate Database schema changes
         run: |
           ./gradlew generateLiveReleaseDatabaseSchema --stacktrace --scan
@@ -52,7 +51,6 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-            **/build/**
           key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
       - name: Setup Java
@@ -73,7 +71,6 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-            **/build/**
           key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
       - name: Setup Java
@@ -108,7 +105,6 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-            **/build/**
           key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
       - name: Setup Java
