@@ -208,7 +208,6 @@ jobs:
         if: always()
         uses: actions/download-artifact@v2.0.8
         with:
-          ref: ${{ github.event.workflow_run.head_branch }}
           name: report-archive
       - name: Publish Unit Test Results
         if: always()
