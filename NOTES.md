@@ -310,3 +310,22 @@ android {
   sourceSets.main.java.srcDirs += ['src/main/sqldelight']
 }
 ```
+
+----
+
+The SQLDelight migration issue on the 14/03/2021 that was causing `/tables[Camera]/columns[Camera.name]/defaultValue - REMOVED` was a result of a default value not being added
+to the new column within the `sq` file.
+
+```
+CREATE TABLE Camera (
+  ...
+  name TEXT NOT NULL <- Results in /tables[Camera]/columns[Camera.name]/defaultValue - REMOVED
+);
+
+CREATE TABLE Camera (
+  ..
+  name TEXT NOT NULL DEFAULT '' <- is the correct way to do it.
+);
+```
+
+I'm not sure if this is a requirement coming from SQLite in general or from SQLDelight, but it makes sense to add this to any new columns.
