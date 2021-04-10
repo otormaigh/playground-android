@@ -25,6 +25,6 @@ jobs:
       - name: Update Gradle Wrapper
         uses: gradle-update/update-gradle-wrapper-action@v1.0.13
         with:
-          base-branch: chore/dependency-update
-          target-branch: chore/dependency-update
+          base-branch: master
+          target-branch: master
           set-distribution-checksum: false
