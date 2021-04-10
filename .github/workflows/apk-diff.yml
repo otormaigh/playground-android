@@ -10,11 +10,6 @@ jobs:
   apk-diff:
     name: APK Diff
     runs-on: ubuntu-latest
-    if: >
-      github.event.workflow_run.conclusion != 'skipped' && (
-         github.event.sender.login == 'dependabot[bot]' ||
-         github.event.workflow_run.head_repository.full_name != github.repository
-      )
 
     steps:
       - name: Download Artifacts
