@@ -76,6 +76,6 @@ ext {
         test      : "com.squareup.sqldelight:sqlite-driver:${versions.sqldelight}"
       ]
     ],
-    timber  : 'com.jakewharton.timber:timber:4.7.1'
+    timber  : 'com.jakewharton.timber:timber:5.0.1'
   ]
 }
