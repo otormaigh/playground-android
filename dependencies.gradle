@@ -53,7 +53,7 @@ ext {
       stdlib   : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}",
       test     : "org.jetbrains.kotlin:kotlin-test-junit:${versions.kotlin}"
     ],
-    mockk   : 'io.mockk:mockk:1.11.0',
+    mockk   : 'io.mockk:mockk:1.12.2',
     square  : [
       assertj   : 'com.squareup.assertj:assertj-android:1.2.0',
       moshi     : [
