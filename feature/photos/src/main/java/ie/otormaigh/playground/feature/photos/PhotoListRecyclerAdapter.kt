@@ -26,7 +26,7 @@ class PhotoListRecyclerAdapter(private val imageLoader: ImageLoader) : ListAdapt
     fun bind(item: Photo) {
       // TODO: Dump image and list item if there is an error loading the image
       binding.imageView.load(
-        uri = item.img.replace("http://", "https://"),
+        data = item.img.replace("http://", "https://"),
         imageLoader = imageLoader
       )
     }

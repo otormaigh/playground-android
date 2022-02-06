@@ -48,6 +48,10 @@ android {
     jvmTarget = JavaVersion.VERSION_11.toString()
   }
 
+  lintOptions {
+    disable "JvmStaticProvidesInObjectDetector", "FieldSiteTargetOnQualifierAnnotation", "ModuleCompanionObjects", "ModuleCompanionObjectsNotInModuleParent"
+  }
+
   sourceSets.main.java.srcDirs += ['src/main/sqldelight']
 }
 

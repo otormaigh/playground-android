@@ -26,6 +26,6 @@ task clean(type: Delete) {
 }
 
 wrapper {
-  gradleVersion = "6.8.3"
+  gradleVersion = "7.3.3"
   distributionType = "bin"
 }
