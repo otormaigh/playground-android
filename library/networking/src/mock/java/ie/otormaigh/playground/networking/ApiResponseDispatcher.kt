@@ -1,8 +1,8 @@
 package ie.otormaigh.playground.networking
 
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.QueueDispatcher
-import okhttp3.mockwebserver.RecordedRequest
+import mockwebserver3.MockResponse
+import mockwebserver3.QueueDispatcher
+import mockwebserver3.RecordedRequest
 import timber.log.Timber
 import java.nio.charset.StandardCharsets
 import java.util.*

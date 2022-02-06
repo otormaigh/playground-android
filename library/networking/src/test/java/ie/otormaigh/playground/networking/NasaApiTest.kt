@@ -8,8 +8,8 @@ import ie.otormaigh.playground.networking.di.NetworkingModule.provideRetrofit
 import ie.otormaigh.playground.networking.response.MOCK_JSON
 import ie.otormaigh.playground.networking.response.MOCK_OBJECT
 import kotlinx.coroutines.runBlocking
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
+import mockwebserver3.MockResponse
+import mockwebserver3.MockWebServer
 import org.junit.Test
 import retrofit2.HttpException
 import kotlin.test.assertFailsWith

@@ -6,8 +6,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ie.otormaigh.playground.networking.ApiResponseDispatcher
+import mockwebserver3.MockWebServer
 import okhttp3.HttpUrl
-import okhttp3.mockwebserver.MockWebServer
 
 @Module
 @InstallIn(SingletonComponent::class)
