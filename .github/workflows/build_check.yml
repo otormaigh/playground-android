@@ -96,6 +96,24 @@ jobs:
             feature/photos/build/test-results
           retention-days: 1
 
+  publish-unit-test-result:
+    if: ${{ github.event_name == 'pull_request' }}
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Unit test results
+        if: always()
+        uses: actions/download-artifact@v2.1.0
+        with:
+          name: report-archive
+      - name: Publish Unit Test Results
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v1.28
+        with:
+          commit: ${{ github.event.workflow_run.head_sha }}
+          files: '**/build/test-results/**/TEST-*.xml'
+
   build:
     needs:
       - check
@@ -197,21 +215,3 @@ jobs:
           path: |
             apk-diff-${{ github.sha }}.txt
             aab-diff-${{ github.sha }}.txt
-
-  publish-unit-test-result:
-    if: ${{ github.event_name == 'pull_request' }}
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download Unit test results
-        if: always()
-        uses: actions/download-artifact@v2.1.0
-        with:
-          name: report-archive
-      - name: Publish Unit Test Results
-        if: always()
-        uses: EnricoMi/publish-unit-test-result-action@v1.28
-        with:
-          commit: ${{ github.event.workflow_run.head_sha }}
-          files: '**/build/test-results/**/TEST-*.xml'
