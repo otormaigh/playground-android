@@ -329,3 +329,21 @@ CREATE TABLE Camera (
 ```
 
 I'm not sure if this is a requirement coming from SQLite in general or from SQLDelight, but it makes sense to add this to any new columns.
+
+### 06/02/2022
+Running `./gradlew :app:dependencies` causes the following error:
+```
+Execution failed for task ':app:dependencies'.
+> Cannot change dependencies of dependency configuration ':app:liveDebugAndroidTestRuntimeClasspath' after it has been included in dependency resolution. Use 'defaultDependencies' instead of 'beforeResolve' to specify default dependencies for a configuration.
+```
+Setting the following prevents the error:
+```
+// app/build.gradle
+
+android {
+  hilt {
+    enableAggregatingTask = false
+  }
+}
+```
+See: https://github.com/google/dagger/issues/2744
