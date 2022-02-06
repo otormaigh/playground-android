@@ -26,6 +26,7 @@ jobs:
         uses: actions/setup-java@v2.5.0
         with:
           java-version: 11
+          distribution: 'temurin'
 
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.4
@@ -57,6 +58,7 @@ jobs:
         uses: actions/setup-java@v2.5.0
         with:
           java-version: 11
+          distribution: 'temurin'
 
       - name: Quality checks
         run: ./gradlew lint --stacktrace --scan
@@ -77,6 +79,7 @@ jobs:
         uses: actions/setup-java@v2.5.0
         with:
           java-version: 11
+          distribution: 'temurin'
 
       - name: Unit Test
         run: ./gradlew test --stacktrace --scan
@@ -111,6 +114,7 @@ jobs:
         uses: actions/setup-java@v2.5.0
         with:
           java-version: 11
+          distribution: 'temurin'
 
       - name: Decrypt secrets
         env:
