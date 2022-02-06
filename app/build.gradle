@@ -10,12 +10,8 @@ if (file('../enc.properties').exists()) {
 }
 
 android {
-  compileSdkVersion versions.compileSdk
-
   defaultConfig {
     applicationId "ie.otormaigh.playground"
-    minSdkVersion versions.minSdk
-    targetSdkVersion versions.targetSdk
     versionCode 1
     versionName "1.0"
 
@@ -76,15 +72,6 @@ android {
         obfuscate = true
       }
     }
-  }
-
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_11
-    targetCompatibility JavaVersion.VERSION_11
-  }
-
-  kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_11.toString()
   }
 
   hilt {
