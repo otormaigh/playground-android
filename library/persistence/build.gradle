@@ -6,13 +6,6 @@ plugins {
 }
 
 android {
-  compileSdkVersion versions.compileSdk
-
-  defaultConfig {
-    minSdkVersion versions.minSdk
-    targetSdkVersion versions.targetSdk
-  }
-
   flavorDimensions 'api'
   productFlavors {
     mock {
@@ -37,19 +30,6 @@ android {
         obfuscate = true
       }
     }
-  }
-
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8 // NOTES#10/03/2021
-    targetCompatibility JavaVersion.VERSION_11
-  }
-
-  kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_11.toString()
-  }
-
-  lintOptions {
-    disable "JvmStaticProvidesInObjectDetector", "FieldSiteTargetOnQualifierAnnotation", "ModuleCompanionObjects", "ModuleCompanionObjectsNotInModuleParent"
   }
 
   sourceSets.main.java.srcDirs += ['src/main/sqldelight']
