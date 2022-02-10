@@ -17,7 +17,7 @@ ext {
   ]
   deps = [
     android : [
-      plugin: 'com.android.tools.build:gradle:7.3.0-alpha01'
+      plugin: 'com.android.tools.build:gradle:7.3.0-alpha02'
     ],
     androidx: [
       appcompat       : 'androidx.appcompat:appcompat:1.4.1',
