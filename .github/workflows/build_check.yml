@@ -85,7 +85,7 @@ jobs:
         run: ./gradlew test --stacktrace --scan
       - name: Upload reports
         if: always()
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: report-archive
           path: |
@@ -148,7 +148,7 @@ jobs:
           cp app/build/outputs/apk/live/release/*.apk release-${{ github.sha }}.apk
           cp app/build/outputs/bundle/liveRelease/*.aab release-${{ github.sha }}.aab
       - name: Upload archived assets
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: build-archive
           path: |
@@ -203,7 +203,7 @@ jobs:
           path: apk-pr-comment.txt
 
       - name: Upload full diff
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: diff-report
           path: |
