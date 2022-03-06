@@ -101,6 +101,9 @@ jobs:
     needs:
       - test
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: write
     steps:
       - name: Download Unit test results
         if: always()
@@ -175,6 +178,8 @@ jobs:
     if: ${{ github.event_name == 'pull_request' }}
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - uses: actions/checkout@v2.4.0
       - name: Download Archived binaries
