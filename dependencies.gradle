@@ -39,7 +39,7 @@ ext {
           plugin  : "com.google.dagger:hilt-android-gradle-plugin:${versions.hilt.dagger}"
         ]
       ],
-      material: 'com.google.android.material:material:1.6.0-alpha03',
+      material: 'com.google.android.material:material:1.7.0-alpha02',
       truth   : 'com.google.truth:truth:1.1.3'
     ],
     junit   : 'junit:junit:4.13.2',
