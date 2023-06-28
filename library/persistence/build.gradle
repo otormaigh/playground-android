@@ -36,8 +36,6 @@ android {
 }
 
 dependencies {
-  implementation deps.kotlin.stdlib
-
   implementation deps.square.sqldelight.android
   implementation deps.square.moshi.core
 

@@ -11,4 +11,8 @@
     android:name="ie.otormaigh.playground.feature.photos.PhotoListFragment"
     android:label="fragment_photo_list" />
 
+  <activity
+    android:id="@+id/activity_login"
+    android:name="ie.otormaigh.feature.login.LoginActivity"
+    android:label="activity_login" />
 </navigation>

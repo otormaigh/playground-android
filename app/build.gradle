@@ -81,13 +81,13 @@ android {
 
 dependencies {
   implementation project(':feature:photos')
-
-  implementation deps.kotlin.stdlib
+  implementation project(':feature:splash-screen')
 
   implementation deps.androidx.appcompat
   implementation deps.androidx.core_ktx
   implementation deps.androidx.navigation.fragment
   implementation deps.androidx.navigation.ui
+  implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
 
   implementation deps.google.material
 

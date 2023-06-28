@@ -1,11 +1,11 @@
 plugins {
   id 'com.android.library'
-  id 'kotlin-android'
-  id 'kotlin-kapt'
-  id 'dagger.hilt.android.plugin'
+  id 'org.jetbrains.kotlin.android'
 }
 
 android {
+  namespace 'ie.otormaigh.feature.splashscreen'
+
   flavorDimensions 'api'
   productFlavors {
     mock {
@@ -38,17 +38,11 @@ android {
 }
 
 dependencies {
-  api project(":library:store")
+  implementation project(':library:store')
+  implementation project(':library:state-machine')
 
-  implementation deps.kotlin.coroutine.android
-
+  implementation deps.androidx.appcompat
   implementation deps.androidx.core_ktx
-  implementation deps.androidx.fragment
-  implementation deps.androidx.recyclerview
-
-  implementation deps.google.dagger.hilt.android
-  kapt deps.google.dagger.hilt.compiler
-
-  implementation deps.timber
-  implementation deps.coil
+  implementation deps.google.material
+  implementation project(path: ':library:store')
 }

@@ -15,6 +15,8 @@ include ':app'
 include ':library:networking'
 include ':library:persistence'
 include ':library:store'
+include ':library:state-machine'
 
 // Feature modules
 include ':feature:photos'
+include ':feature:splash-screen'

@@ -21,7 +21,7 @@ class PhotoStore
 constructor(
   val api: NasaApi,
   private val database: Database
-) {
+) : Store() {
 
   suspend fun fetchPhotos(rover: String, sol: Int? = null, earthDate: String? = null, camera: String? = null, page: Int = 1): Flow<List<Photo>> {
     if (sol == null && earthDate == null) throw Exception("Field { sol } AND { earthDate } must not be empty.")

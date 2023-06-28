@@ -41,7 +41,6 @@ android {
 }
 
 dependencies {
-  implementation deps.kotlin.stdlib
   implementation deps.kotlin.coroutine.core
   implementation deps.kotlin.coroutine.android
 
